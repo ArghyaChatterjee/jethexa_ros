@@ -1,0 +1,9 @@
+int8 gait
+float32 stride
+float32 height
+float32 direction
+float32 rotation
+float32 time
+uint32 steps
+bool relative_height
+bool interrupt

@@ -1,0 +1,6 @@
+geometry_msgs/Transform transform
+float32 duration
+bool interrupt
+---
+int32 result
+string message

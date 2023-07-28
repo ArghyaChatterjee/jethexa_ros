@@ -1,0 +1,25 @@
+<launch>
+	<arg name="robot_name" default="jethexa" />
+	<arg name="tf_prefix" default="" />
+	<arg name="tf_enable" default="false" />
+	<arg name="odom_enable" default="false" />
+
+	<node name="jethexa_controller" 
+		  pkg="jethexa_controller" 
+		  type="jethexa_controller_ros_app.py" 
+		  output="screen" respawn="true"> 
+		<param name="odom_enable" value="$(arg odom_enable)" />
+		<param name="tf_prefix" value="$(arg tf_prefix)" />
+	</node>
+
+	<node if="$(arg tf_enable)" 
+		name="jethexa_tf" 
+		pkg="jethexa_controller" 
+		type="tf_broadcaster.py" 
+		required="true" 
+		ns="jethexa_controller"
+		output="screen">
+		<param name="tf_prefix" value="$(arg tf_prefix)" />
+	</node>
+	<include file="$(find jethexa_peripherals)/launch/battery_low_alarm.launch" />
+</launch>

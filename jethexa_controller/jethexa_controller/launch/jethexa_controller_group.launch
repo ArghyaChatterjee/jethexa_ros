@@ -1,0 +1,15 @@
+<launch>
+	<arg name="robot_name" default="jethexa" />
+	<arg name="tf_prefix" default="" />
+	<arg name="tf_enable" default="false" />
+	<arg name="odom_enable" default="false" />
+
+	<node name="jethexa_controller1" 
+		  pkg="jethexa_controller" 
+		  type="jethexa_controller_group_main.py" 
+		  output="screen" respawn="true"> 
+		<param name="odom_enable" value="$(arg odom_enable)" />
+		<param name="tf_prefix" value="$(arg tf_prefix)" />
+		<remap from="/jethexa_controller1" to="/jethexa_controller" />
+	</node>
+</launch>

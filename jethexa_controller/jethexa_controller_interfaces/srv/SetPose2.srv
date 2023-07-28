@@ -1,0 +1,6 @@
+geometry_msgs/Point32[] pose
+float32 duration
+bool interrupt
+---
+int32 result
+string message

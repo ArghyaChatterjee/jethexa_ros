@@ -1,0 +1,8 @@
+# Request
+int8 moving
+int32   repeat
+bool interrupt
+---
+# Result
+int32 result
+string message
