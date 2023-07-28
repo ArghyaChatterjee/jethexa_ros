@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="jethexa">
+    <xacro:arg name="prefix" default="" />
+
+    <!-- Import jethexa macro -->
+    <xacro:include filename="$(find jethexa_description)/urdf/jethexa_description.urdf.xacro" />
+
+    <!-- Import Rviz colors -->
+    <xacro:include filename="$(find jethexa_description)/gazebo/jethexa.materials.xacro" />
+
+    <!-- Import jethexa ros_control description -->
+    <xacro:include filename="$(find jethexa_description)/gazebo/jethexa.gazebo.xacro" />
+    <xacro:include filename="$(find jethexa_description)/gazebo/jethexa.transmission.xacro" />
+
+    <!-- Used for fixing robot -->
+    <link name="$(arg prefix)base_link"/>
+    <gazebo reference="$(arg prefix)base_link">
+        <static>true</static>
+    </gazebo>
+
+    <xacro:jethexa parent="$(arg prefix)base_link" prefix="$(arg prefix)">
+        <origin xyz="0 0 0.075" rpy="0 0 0" />
+    </xacro:jethexa>
+
+    <xacro:jethexa_gazebo prefix="$(arg prefix)"></xacro:jethexa_gazebo>
+    <xacro:jethexa_gazeboo_transmission prefix="$(arg prefix)"> </xacro:jethexa_gazeboo_transmission>
+
+    <!-- <xacro:jethexa_ros2_control name="jethexa" prefix="$(arg prefix)" /> -->
+
+</robot>

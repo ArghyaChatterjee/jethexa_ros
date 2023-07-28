@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+    <xacro:macro name="gazebo_transmission" params="name">
+        <transmission name="${name}_trans">
+            <type>transmission_interface/SimpleTransmission</type>
+            <joint name="${name}">
+                <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            </joint>
+            <actuator name="${name}_motor">
+                <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+                <mechanicalReduction>1</mechanicalReduction>
+            </actuator>
+        </transmission>
+    </xacro:macro>
+
+    <xacro:macro name="jethexa_gazeboo_transmission" params="prefix">
+        <xacro:gazebo_transmission name="${prefix}coxa_joint_LF"/>
+        <xacro:gazebo_transmission name="${prefix}femur_joint_LF"/>
+        <xacro:gazebo_transmission name="${prefix}tibia_joint_LF"/>
+        <xacro:gazebo_transmission name="${prefix}coxa_joint_LM"/>
+        <xacro:gazebo_transmission name="${prefix}femur_joint_LM"/>
+        <xacro:gazebo_transmission name="${prefix}tibia_joint_LM"/>
+        <xacro:gazebo_transmission name="${prefix}coxa_joint_LR"/>
+        <xacro:gazebo_transmission name="${prefix}femur_joint_LR"/>
+        <xacro:gazebo_transmission name="${prefix}tibia_joint_LR"/>
+        <xacro:gazebo_transmission name="${prefix}coxa_joint_RF"/>
+        <xacro:gazebo_transmission name="${prefix}femur_joint_RF"/>
+        <xacro:gazebo_transmission name="${prefix}tibia_joint_RF"/>
+        <xacro:gazebo_transmission name="${prefix}coxa_joint_RM"/>
+        <xacro:gazebo_transmission name="${prefix}femur_joint_RM"/>
+        <xacro:gazebo_transmission name="${prefix}tibia_joint_RM"/>
+        <xacro:gazebo_transmission name="${prefix}coxa_joint_RR"/>
+        <xacro:gazebo_transmission name="${prefix}femur_joint_RR"/>
+        <xacro:gazebo_transmission name="${prefix}tibia_joint_RR"/>
+	<!--<xacro:gazebo_transmission name="${prefix}head_pan_joint"/>-->
+	<!--<xacro:gazebo_transmission name="${prefix}head_tilt_joint"/>-->
+
+    </xacro:macro>
+</robot>

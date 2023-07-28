@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+    <xacro:macro name="gazebo_link" params="name">
+        <gazebo reference="${name}">
+            <kp>1000000.0</kp>
+            <kd>1000000.0</kd>
+            <mu1>0.2</mu1>
+            <mu2>0.2</mu2>
+            <minDepth>0.000</minDepth>
+            <material>Gazebo/Black</material>
+        </gazebo>
+    </xacro:macro>
+
+    <xacro:macro name="gazebo_coxa" params="name">
+        <gazebo reference="${name}">
+            <kp>1000000.0</kp>
+            <kd>1000000.0</kd>
+            <mu1>0.2</mu1>
+            <mu2>0.2</mu2>
+            <minDepth>0.0002</minDepth>
+            <material>Gazebo/Grass</material>
+        </gazebo>
+    </xacro:macro>
+
+    <xacro:macro name="gazebo_tibia" params="name">
+        <gazebo reference="${name}">
+            <kp>500.0</kp>
+            <kd>0.05</kd>
+            <mu1>0.4</mu1>
+            <mu2>0.4</mu2>
+            <minDepth>0.0002</minDepth>
+            <material>Gazebo/Grass</material>
+        </gazebo>
+    </xacro:macro>
+
+    <xacro:macro name="jethexa_gazebo" params="prefix">
+        <!-- ros_control plugin -->
+        <gazebo>
+            <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+                <robotNamespace>/jethexa</robotNamespace>
+                <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+                <legacyModeNS>true</legacyModeNS>
+            </plugin>
+        </gazebo>
+
+        <xacro:gazebo_coxa name="${prefix}coxa_LF"/>
+        <xacro:gazebo_coxa name="${prefix}coxa_LM"/>
+        <xacro:gazebo_coxa name="${prefix}coxa_LR"/>
+        <xacro:gazebo_coxa name="${prefix}coxa_RF"/>
+        <xacro:gazebo_coxa name="${prefix}coxa_RM"/>
+        <xacro:gazebo_coxa name="${prefix}coxa_RR"/>
+
+        <xacro:gazebo_link name="${prefix}femur_LF"/>
+        <xacro:gazebo_link name="${prefix}femur_LM"/>
+        <xacro:gazebo_link name="${prefix}femur_LR"/>
+        <xacro:gazebo_link name="${prefix}femur_RF"/>
+        <xacro:gazebo_link name="${prefix}femur_RM"/>
+        <xacro:gazebo_link name="${prefix}femur_RR"/>
+
+        <xacro:gazebo_tibia name="${prefix}tibia_LF"/>
+        <xacro:gazebo_tibia name="${prefix}tibia_LR"/>
+        <xacro:gazebo_tibia name="${prefix}tibia_LM"/>
+        <xacro:gazebo_tibia name="${prefix}tibia_RF"/>
+        <xacro:gazebo_tibia name="${prefix}tibia_RM"/>
+        <xacro:gazebo_tibia name="${prefix}tibia_RR"/>
+
+	<!--<xacro:gazebo_link name="${prefix}head_pan_link"/>-->
+	<!--<xacro:gazebo_link name="${prefix}head_tilt_link"/>-->
+	<gazebo reference="${prefix}body_link">
+            <material>Gazebo/Grass</material>
+        </gazebo>
+	<gazebo reference="${prefix}lidar_visual_link">
+            <material>Gazebo/Black</material>
+        </gazebo>
+    </xacro:macro>
+</robot>

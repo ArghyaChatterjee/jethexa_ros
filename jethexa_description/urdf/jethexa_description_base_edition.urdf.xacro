@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="ASCII" ?>
+
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+    <!-- parameters -->
+    <xacro:property name="my_pi" value="3.1415926535897931"/>
+    <xacro:property name="body_length_x" value="0.3556"/>
+    <xacro:property name="body_length_y" value="0.165"/>
+    <xacro:property name="coxa_length" value="0.04505032"/>
+    <xacro:property name="femur_length" value="0.07703"/>
+
+    <!-- Joint properties -->
+    <xacro:property name="joint_lower_limit" value="-${3.14}" />
+    <xacro:property name="joint_upper_limit" value="${3.14}" />
+    <xacro:property name="joint_effort" value="6.0" />
+    <xacro:property name="joint_velocity" value="0.524" />
+
+    <!-- Leg macro -->
+    <xacro:macro name="leg" params="prefix side position x y angle axis">
+        <!-- leg position -->
+        <joint name="${prefix}leg_center_joint_${side}${position}" type="fixed">
+            <origin xyz="${x} ${y} 0.0" rpy="0.0 0.0 0.0" />
+            <parent link="${prefix}body_link" />
+            <child link="${prefix}leg_center_${side}${position}" />
+        </joint>
+        <link name="${prefix}leg_center_${side}${position}">
+            <inertial>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+                <mass value="0.00001"/>
+                <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+            </inertial>
+        </link>
+        <!-- coxa -->
+        <joint name="${prefix}coxa_joint_${side}${position}" type="revolute">
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 ${angle}" />
+            <parent link="${prefix}leg_center_${side}${position}" />
+            <child link="${prefix}coxa_${side}${position}" />
+            <axis xyz="0.0 0.0 1.0" />
+            <limit lower="${joint_lower_limit}" upper="${joint_upper_limit}" effort="${joint_effort}" velocity="${joint_velocity}" />
+	    <dynamics damping="0.7" />
+        </joint>
+        <link name="${prefix}coxa_${side}${position}">
+            <visual>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+                <geometry>
+			<mesh filename="package://jethexa_description/meshes/simplify/coxa.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+                <material name="">
+                    <color rgba="0.7 0.7 0.7 1"/>
+                </material>
+            </visual>
+            <collision>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+                <geometry>
+			<mesh filename="package://jethexa_description/meshes/simplify/coxa.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+                <material name="">
+                    <color rgba="0.7 0.7 0.7 1" />
+                </material>
+            </collision>
+            <inertial>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+                <mass value="0.00001"/>
+                <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+            </inertial>
+        </link>
+        <!-- femur -->
+        <joint name="${prefix}femur_joint_${side}${position}" type="revolute">
+            <origin xyz="${coxa_length} 0.0 0.0" rpy="${axis*my_pi/2} 0.0 0.0" />
+            <parent link="${prefix}coxa_${side}${position}" />
+            <child link="${prefix}femur_${side}${position}" />
+            <axis xyz="0.0 0.0 ${axis}" />
+            <limit lower="${joint_lower_limit}" upper="${joint_upper_limit}" effort="${joint_effort}" velocity="${joint_velocity}" />
+	    <dynamics damping="0.7" />
+        </joint>
+        <link name="${prefix}femur_${side}${position}">
+            <visual>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+                <geometry>
+			<mesh filename="package://jethexa_description/meshes/simplify/${side}_femur.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+                <material name="">
+                    <color rgba="0.7 0.7 0.7 1"/>
+                </material>
+            </visual>
+            <collision>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0" />
+                <geometry>
+			<mesh filename="package://jethexa_description/meshes/simplify/${side}_femur.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+                <material name="">
+                    <color rgba="0.7 0.7 0.7 1" />
+                </material>
+            </collision>
+            <inertial>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 1.0" />
+                <mass value="0.00001"/>
+                <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+            </inertial>
+        </link>
+
+        <!-- tibia -->
+        <joint name="${prefix}tibia_joint_${side}${position}" type="revolute">
+            <origin xyz="${femur_length} 0.0 0.0" rpy="0.0 0.0 ${-axis*my_pi/2}" />
+            <parent link="${prefix}femur_${side}${position}" />
+            <child link="${prefix}tibia_${side}${position}" />
+            <axis xyz="0.0 0.0 ${axis}" />
+            <limit lower="${joint_lower_limit}" upper="${joint_upper_limit}" effort="${joint_effort}" velocity="${joint_velocity}" />
+	    <dynamics damping="0.7" />
+        </joint>
+        <link name="${prefix}tibia_${side}${position}">
+            <visual>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+                <geometry>
+			<mesh filename="package://jethexa_description/meshes/simplify/${side}_tibia.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+                <material name="">
+                    <color rgba="0.7 0.7 0.7 1"/>
+                </material>
+            </visual>
+            <collision>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+                <geometry>
+			<mesh filename="package://jethexa_description/meshes/simplify/${side}_tibia.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+                <material name="">
+                    <color rgba="0.7 0.7 0.7 1" />
+                </material>
+            </collision>
+            <inertial>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+                <mass value="0.00001"/>
+                <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+            </inertial>
+        </link>
+        <!-- END -->
+        <joint name="${prefix}end_joint${side}${position}" type="fixed">
+            <origin xyz="0.12 0.0 0.0" rpy="0.0 0.0 0.0" />
+            <parent link="${prefix}tibia_${side}${position}" />
+            <child link="${prefix}end_${side}${position}" />
+            <axis xyz="0.0 0.0 0.0" />
+        </joint>
+        <link name="${prefix}end_${side}${position}">
+        </link>
+    </xacro:macro>
+
+    <xacro:macro name="jethexa" params="prefix parent *origin">
+        <joint name="${prefix}base_joint" type="fixed">
+            <parent link="${parent}"/>
+            <child link="${prefix}body_link" />
+            <xacro:insert_block name="origin"/>
+        </joint>
+        <link name="${prefix}body_link">
+            <visual>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+                <geometry>
+			<mesh filename="package://jethexa_description/meshes/simplify/body.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+                <material name="">
+                    <color rgba="0.7 0.7 0.7 1" />
+                </material>
+            </visual>
+            <collision>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+                <geometry>
+			<mesh filename="package://jethexa_description/meshes/simplify/body.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+                <material name="">
+                    <color rgba="0.7 0.7 0.7 1"/>
+                </material>
+            </collision>
+            <inertial>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+                <mass value="0.00001"/>
+                <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+            </inertial>
+        </link>
+        <!-- Head Pan and Tilt properties -->
+        <joint name="${prefix}head_center_joint" type="fixed">
+            <parent link="${prefix}body_link"/>
+            <child link="${prefix}head_center_link"/>
+            <origin xyz="0.065455 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        </joint>
+        <link name="${prefix}head_center_link">
+            <inertial>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+                <mass value="0.00001"/>
+                <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+            </inertial>
+        </link>
+
+        <joint name="${prefix}head_pan_joint" type="revolute">
+            <parent link="${prefix}head_center_link"/>
+            <child link="${prefix}head_pan_link"/>
+            <axis xyz="0.0 0.0 1.0" />
+            <origin xyz="0.0 0.0 0.068857338" rpy="0.0 0.0 0.0"/>
+            <limit lower="-3.14" upper="3.14" effort="10000" velocity="100" />
+	    <dynamics damping="0.7" />
+        </joint>
+
+        <link name="${prefix}head_pan_link">
+            <visual>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+                <geometry>
+			<mesh filename="package://jethexa_description/meshes/simplify/head_pan.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+                <material name="">
+                    <color rgba="0.7 0.7 0.7 1"/>
+                </material>
+            </visual>
+            <collision>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+                <geometry>
+			<mesh filename="package://jethexa_description/meshes/simplify/head_pan.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+                <material name="">
+                    <color rgba="0.7 0.7 0.7 1" />
+                </material>
+            </collision>
+            <inertial>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+                <mass value="0.00001"/>
+                <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+            </inertial>
+        </link>
+        <joint name="${prefix}head_tilt_joint" type="revolute">
+            <parent link="${prefix}head_pan_link"/>
+            <child link="${prefix}head_tilt_link"/>
+            <axis xyz="0.0 0.0 1.0" />
+            <origin xyz="0.00922 0.0 0.017199" rpy="${my_pi/2} 0.0 0.0" />
+            <limit lower="-3.14" upper="3.14" effort="10000" velocity="100" />
+	    <dynamics damping="0.7" />
+        </joint>
+        <link name="${prefix}head_tilt_link">
+            <visual>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+                <geometry>
+			<mesh filename="package://jethexa_description/meshes/simplify/head_tilt.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+                <material name="">
+                    <color rgba="0.7 0.7 0.7 1"/>
+                </material>
+            </visual>
+            <collision>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+                <geometry>
+			<mesh filename="package://jethexa_description/meshes/simplify/head_tilt.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+                <material name="">
+                    <color rgba="0.7 0.7 0.7 1" />
+                </material>
+            </collision>
+            <inertial>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+                <mass value="0.00001"/>
+                <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+            </inertial>
+        </link>
+
+        <xacro:leg prefix="${prefix}" side="R" position="R" x="-0.093205" y="-0.05098" angle="-${my_pi*3/4}" axis="1" />
+        <xacro:leg prefix="${prefix}" side="R" position="M" x="0.0" y="-0.073535" angle="-${my_pi/2}" axis="1" />
+        <xacro:leg prefix="${prefix}" side="R" position="F" x="0.093205" y="-0.05098" angle="-${my_pi/4}" axis="1" />
+        <xacro:leg prefix="${prefix}" side="L" position="R" x="-0.093205" y="0.05098" angle="${my_pi*3/4}" axis="-1" />
+        <xacro:leg prefix="${prefix}" side="L" position="M" x="0.0" y="0.07353" angle="${my_pi/2}" axis="-1" />
+        <xacro:leg prefix="${prefix}" side="L" position="F" x="0.093205" y="0.05098" angle="${my_pi/4}" axis="-1" />
+    </xacro:macro>
+</robot>

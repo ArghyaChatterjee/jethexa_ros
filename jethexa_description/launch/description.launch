@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<launch>
+    <arg name="robot_name" default="jethexa"/>
+    <arg name="tf_prefix" default="jethexa"/>
+    <arg name="laser_view" default="false" />
+
+    <param name="robot_description" command="$(find xacro)/xacro '$(find jethexa_description)/urdf/jethexa.urdf.xacro' tf_prefix:=$(arg tf_prefix) robot_name:=$(arg robot_name) laser_view:=$(arg laser_view)" />
+
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" output="screen">
+        <param name="tf_prefix" value="$(arg tf_prefix)" />
+    </node>
+</launch>
