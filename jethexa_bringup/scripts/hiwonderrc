@@ -1,0 +1,76 @@
+#!/bin/bash
+echo -ne "环境初始化中... "
+
+# the name of the robot, which is used in  ros namespace  name
+export ROBOT_NAME=jethexa
+
+# name of the master robot during multi-robot operation, which is used in ros namespace 
+# if there is only one robot, the robot name should remains the same as ROBOT_NAME
+export MASTER_NAME=jethexa
+
+# whether to set ROS_HOSTNAME automatically based on the IP of wireless adapter
+# set ROS_HOSTNAME as the IP of the wireless adapter automatically when booting up
+# if you want to set ROS_HOSTNAME manually, please add "#" to comment the modified value behind AUTO_ROS_HOSTNAME
+# AUTO_ROS_HOSTNAME=true
+
+# whether to set ROS_MASTER_URI automatically based on the IP of wireless adapter
+# set ROS_MASTER_URI as the device whose address is 1 under the network segment where the wireless adapter is located
+# For example: if the current IP of the wireless adapter is 192.168.1.5,  ROS_MASTER_URI will be set as   http://192.168.1.1:11311
+# if you want to set ROS_HOSTNAME manually, please add "#" to comment the modified value behind AUTO_ROS_MASTER_URI 
+# AUTO_ROS_MASTER_URI=true
+
+# modify ROS_HOSTNAME and ROS_MASTER_URI manually
+export ROS_HOSTNAME=localhost
+export ROS_MASTER_URI=http://localhost:11311
+
+# Set ROS_HOSTNAME and ROS_MASTER_URI manually.
+MY_IP=$(ip a|grep -e 'wlan0$'|grep 'inet'|awk '{print $2}')
+if [ -n "$MY_IP" ];then 
+    # set ROS_HOSTNAME as the IP of the wireless adapter of this computer 
+    if [ $AUTO_ROS_HOSTNAME ];then
+	export ROS_HOSTNAME="${MY_IP%/*}"
+    fi
+    # set MASTER URI as the device whose IP is 1
+    if [ $AUTO_ROS_MASTER_URI ];then 
+	export ROS_MASTER_URI="http://${MY_IP%.*}.1:11311"
+    fi
+fi
+
+# the model of the robot without actual function
+export ROBOT_TYPE=JETHEXAPRO
+# the model of Lidar. launch file determines which Lidar to load based on this environmrnt variable.
+export LIDAR_TYPE=YDLIDAR_G4
+# CSI model of the camera. launch file determines which camera to load based on this environmrnt variable. The model of CSI interface camera is CSI.
+export CAMERA_TYPE=DABAI
+
+# other environment variables
+export PATH=$PATH:/usr/local/cuda/bin
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda/lib64
+export CUDA_HOME=/usr/local/cuda
+
+if  [ "$SSH_CLIENT" ] || [ "$SSH_TTY" ];then
+	false
+	#CLIENT=$(echo $SSH_CLIENT|cut -f1 -d ' ')
+        #export DISPLAY="$CLIENT:0.0"
+else
+	source /etc/update-motd.d/01-hiwonder-banner
+	export DISPLAY=:0.0
+fi
+
+if [ $ZSH_VERSION ]; then
+  . /opt/ros/melodic/setup.zsh
+  . $HOME/jethexa/devel/setup.zsh
+elif [ $BASH_VERSION ]; then
+  . /opt/ros/melodic/setup.bash
+  . $HOME/jethexa/devel/setup.bash
+else
+  . /opt/ros/melodic/setup.sh
+  . $HOME/jethexa/devel/setup.sh
+fi
+
+printf '                                      \r                                   \r'
+printf "LIDAR TYPE: \e[32m%s\e[0m\n" $LIDAR_TYPE
+printf "CAMERA TYPE: \e[32m%s\e[0m\n" $CAMERA_TYPE
+printf "ROS_HOSTNAME: \e[32m%s\e[0m\n" $ROS_HOSTNAME
+printf "ROS_MASTER_URI: \e[32m%s\e[0m\n" $ROS_MASTER_URI
+

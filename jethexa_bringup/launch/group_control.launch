@@ -1,0 +1,6 @@
+<launch>
+	<include file="$(find jethexa_controller)/launch/jethexa_controller_group.launch">
+		<arg name="odom_enable" value="false" />
+	</include>
+	<include file="$(find jethexa_peripherals)/launch/oled_display.launch"></include>
+</launch>

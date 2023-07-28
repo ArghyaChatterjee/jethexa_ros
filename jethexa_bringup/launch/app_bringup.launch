@@ -1,0 +1,9 @@
+<launch>
+	<include file="$(find jethexa_bringup)/launch/base.launch"></include>	
+	<include file="$(find lab_config)/launch/lab_config_manager.launch"></include>
+	<include file="$(find jethexa_app)/launch/self_balancing.launch"></include> 
+	<include file="$(find jethexa_app)/launch/line_following.launch"></include>
+	<include file="$(find jethexa_app)/launch/object_tracking.launch"></include>
+	<include file="$(find jethexa_app)/launch/hand_gesture.launch"></include>
+	<include file="$(find jethexa_app)/launch/lidar.launch"></include>
+</launch>
