@@ -1,0 +1,4 @@
+<launch>
+    <node name="oled_set_i2c_rate" pkg="jethexa_peripherals" type="set_i2c_rate.sh" />
+    <node name="oled_display_node" pkg="jethexa_peripherals" type="oled_display.py" output="screen" respawn="true" ns="oled_display"/>
+</launch>

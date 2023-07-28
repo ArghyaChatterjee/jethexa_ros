@@ -1,0 +1,30 @@
+<launch>
+  <!-- Command Line Arguments -->
+  <arg name="sensor_id" default="0" />                       <!-- The sensor id of the camera -->
+  <arg name="cam_name" default="csi_camera" /> <!-- The name of the camera (corrsponding to the camera info) -->
+  <arg name="frame_id" default="/$(arg cam_name)_link" />    <!-- The TF frame ID. -->
+  <arg name="sync_sink" default="true" />                    <!-- Synchronize the app sink. Setting this to false may resolve problems with sub-par framerates. -->
+  <arg name="width" default="640" />                        <!-- Image Width -->
+  <arg name="height" default="360" />                       <!-- Image Height -->
+  <arg name="fps" default="30" />                            <!-- Desired framerate. True framerate may not reach this if set too high. -->
+
+  <!-- Make arguments available to parameter server -->
+  <param name="$(arg cam_name)/camera_id" type="int" value="$(arg sensor_id)" />
+  <param name="$(arg cam_name)/image_width" type="int" value="$(arg width)" />
+  <param name="$(arg cam_name)/image_height" type="int" value="$(arg height)" />
+  <param name="$(arg cam_name)/target_fps" type="int" value="$(arg fps)" />
+
+  <!-- Define the GSCAM pipeline -->
+  <env name="GSCAM_CONFIG" value="nvarguscamerasrc sensor-id=$(arg sensor_id) ! video/x-raw(memory:NVMM), width=$(arg width), height=$(arg height), format=(string)NV12, framerate=(fraction)$(arg fps)/1 ! nvvidconv ! video/x-raw, width=(int)$(arg width), height=(int)$(arg height), format=(string)RGBA ! videoconvert" />
+  <!-- Start the GSCAM node -->
+  <node pkg="gscam" type="gscam" name="$(arg cam_name)">
+    <param name="camera_name" value="$(arg cam_name)" />
+    <param name="frame_id" value="$(arg frame_id)" />
+    <param name="sync_sink" value="$(arg sync_sink)" />
+    <remap from="camera/image_raw" to="$(arg cam_name)/image_raw" />
+    <remap from="/set_camera_info" to="$(arg cam_name)/set_camera_info" />
+  </node>
+
+  <node name="$(arg cam_name)_image_proc" pkg="image_proc" type="image_proc" ns="$(arg cam_name)" />
+
+</launch>

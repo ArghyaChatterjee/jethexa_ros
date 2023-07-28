@@ -1,0 +1,3 @@
+<launch>
+    <node name="battery_low_alarm" pkg="jethexa_peripherals" type="battery_low_alarm.py" output="screen" />
+</launch>

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="imu_raw" default="/imu/raw"/>
+  <arg name="imu_link" default="imu_link"/>
+  <node name="imu_calib_set_i2c_rate" pkg="jethexa_peripherals" type="set_i2c_rate.sh" />
+
+  <node name="imu" pkg="mpu_6050_driver" type="imu_node.py" >
+	  <param name="imu_raw" value="$(arg imu_raw)"/>
+	  <param name="imu_link" value="$(arg imu_link)"/>
+  </node>
+  <node name="imu_calib" pkg="imu_calib" type="do_calib" output="screen" >
+	  <param name="output_file" value="$(find jethexa_peripherals)/config/imu_calib.yaml" />
+    <remap from="/imu" to="/imu/raw" />
+  </node>
+</launch>

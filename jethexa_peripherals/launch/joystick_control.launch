@@ -1,0 +1,27 @@
+<launch>
+  <!-- <node name="joystick" pkg="joy" type="joy_node" output="screen">
+      <param name="dev" type="string" value="/dev/input/js0" />
+      <param name="autorepeat_rate" type="double" value="10.0" />
+      <param name="deadzone" type="double" value="0" />
+      <param name="coalesce_interval" type="double" value="0.01" />
+  </node> -->
+
+  <arg name="topic_prefix" default="jethexa_controller" />
+
+  <group unless="$(eval topic_prefix == 'jethexa_controller')">
+    <node name="joystick_control" pkg="jethexa_peripherals" type="joystick_control.py" output="screen">
+      <remap from="jethexa_controller/cmd_vel" to="$(arg topic_prefix)/cmd_vel" />
+      <remap from="jethexa_controller/traveling" to="$(arg topic_prefix)/traveling" />
+      <remap from="jethexa_controller/pose_transform_euler" to="$(arg topic_prefix)/pose_transform_euler" />
+      <remap from="jethexa_controller/run_actionset" to="$(arg topic_prefix)/run_actionset" />
+      <remap from="jethexa_controller/set_head_absolute" to="$(arg topic_prefix)/set_head_absolute" />
+      <remap from="jethexa_controller/set_head_relatively" to="$(arg topic_prefix)/set_head_relatively" />
+      <remap from="jethexa_controller/set_leg_absolute" to="$(arg topic_prefix)/set_leg_absolute" />
+      <remap from="jethexa_controller/set_leg_relatively" to="$(arg topic_prefix)/set_head_relatively" />
+    </node>
+  </group>
+  <group if="$(eval topic_prefix == 'jethexa_controller')">
+    <node name="joystick_control" pkg="jethexa_peripherals" type="joystick_control.py" output="screen">
+    </node>
+  </group>
+</launch>

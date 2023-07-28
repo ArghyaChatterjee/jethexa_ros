@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="tf_prefix" default="" />
+  <arg name="imu_link" default="imu_link"/>
+  <arg name="freq" default="50" />
+  <arg name="start_publish" default="true" />
+  <arg name="publish_tf" default="true" />
+  <node name="imu_set_i2c_rate" pkg="jethexa_peripherals" type="set_i2c_rate.sh" />
+  
+  <node name="imu" pkg="mpu_6050_driver" type="imu_node.py">
+	<param name="imu_link" value="$(arg tf_prefix)/$(arg imu_link)"/>
+        <param name="imu_hz" value="$(arg freq)" />
+	<param name="imu_topic" value="imu/raw" />
+	<param name="start_publish" value="$(arg start_publish)" />
+  </node>
+
+  <node name="imu_calib" pkg="imu_calib" type="apply_calib" output="screen">
+       <param name="calib_file" value="$(find jethexa_peripherals)/config/imu_calib.yaml" />
+       <remap from="raw" to="imu/raw" />
+       <remap from="corrected" to="imu/corrected" />
+  </node>
+  
+  <node name="imu_filter" pkg="imu_complementary_filter" type="complementary_filter_node">
+	<param name="use_mag" value="false" />
+        <param name="publish_tf" value="false" />
+	<remap from="imu/data_raw" to="imu/corrected" />
+	<remap from="imu/data" to="imu/filtered" />
+  </node> 
+
+  <node if="$(arg publish_tf)" pkg="tf" type="static_transform_publisher" name="imu_link" 
+        args="0.0 0.0 0.04 0.0 0.0 0.0 $(arg tf_prefix)/body_link $(arg tf_prefix)/imu_link 50" />
+</launch>

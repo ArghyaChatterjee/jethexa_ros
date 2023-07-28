@@ -1,0 +1,3 @@
+<launch>
+    <node name="laser_viewer" pkg="rviz" type="rviz" output="screen" args="-d $(find jethexa_peripherals)/rviz/rgbd_viewer.rviz" />
+</launch>

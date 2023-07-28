@@ -1,0 +1,28 @@
+<launch>
+  <arg name="tf_prefix" default="" />
+  <arg name="camera_type" default="$(optenv CAMERA_TYPE DABAI)"/> # 相机型号
+  <param name="camera_type" value="$(arg camera_type)" />
+
+  <!-- use DABAI camera -->
+  <group if="$(eval arg('camera_type')=='DABAI')">
+    <param name="camera_type" value="$(arg camera_type)" />
+    <param name="camera_rgb_prefix" value="camera/rgb" />
+    <include file="$(find jethexa_peripherals)/launch/include/Halley_ros_app.launch">
+	<arg name="tf_prefix" value="$(arg tf_prefix)" />
+    </include>
+  </group>
+
+  <!-- use CSI camera -->
+  <group if="$(eval arg('camera_type')=='CSI')">
+    <param name="camera_rgb_prefix" value="csi_camera" />
+    <include file="$(find jethexa_peripherals)/launch/include/csi_camera_ros_app.launch">
+    </include>
+  </group>
+
+
+  <!-- web video stream -->
+  <node name="web_video_server" pkg="web_video_server" type="web_video_server">
+    <param name="type" value="h264" />
+  </node>
+
+</launch>
