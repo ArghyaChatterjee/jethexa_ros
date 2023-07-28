@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="master_name"  default="$(env MASTER_NAME)"/>
+    <arg name="robot_name"   default="$(env MY_NAME)"/>
+    <arg name="target_robot" default="jethexa-1"/>
+    
+    <node ns="$(arg robot_name)" name="$(arg target_robot)_costmap_publisher" pkg="jethexa_multi" type="costmap_publish.py" required="true" output="screen" >
+        <param name="base_frame" value="$(arg target_robot)/base_link"/>
+	<param name="map_frame"  value="/$(arg master_name)/map"/>
+    </node>
+</launch>

@@ -1,0 +1,130 @@
+<?xml version="1.0"?>
+<launch>
+    <!--row:横 column:纵-->
+    <arg name="multi_mode" default="row" doc="opt: row, column"/>
+
+    <!--machine namespace-->
+    <arg name="master_name" default="$(env MASTER_NAME)"/>
+    <arg name="robot_name" default="$(env ROBOT_NAME)" />
+    <arg name="tf_prefix" default="$(arg robot_name)" />
+
+    <!--whether to use simulation-->
+    <arg name="sim" default="false" />
+
+    <!--whether to use depth camera to simulate the Lidar-->
+    <arg name="use_depth_camera" default="false" />
+    <arg name="depth_camera_name" default="camera"/>
+
+    <!--topic and frame setting-->
+    <arg name="map_topic" default="/$(arg master_name)/map" />
+    <arg name="cmd_vel_topic" default="jethexa_controller/cmd_vel"/>
+    <arg name="scan_raw" default="scan/raw"/>
+    <arg name="scan_topic" default="scan/raw"/>
+    <arg name="odom_raw_topic" default="odom/raw"/>
+    <arg name="odom_lidar_topic" default="odom/lidar"/>
+    <arg name="odom_topic" default="odom/filtered"/>
+    <arg name="imu_raw_topic" default="imu/raw"/>
+    <arg name="imu_topic" default="imu/filtered"/>
+
+    <arg name="map_frame_id" default="$(arg master_name)/map" />
+    <arg name="odom_frame_id" default="$(arg tf_prefix)/odom"/>
+    <arg name="base_frame_id" default="$(arg tf_prefix)/base_link"/>
+    <arg name="lidar_frame_id" default="$(arg tf_prefix)/lidar_link"/>
+    <arg name="imu_frame_id" default="$(arg tf_prefix)/imu_link"/>
+
+    <group ns="$(arg robot_name)">
+        <!--robot urdf model is loading-->
+        <include file="$(find jethexa_description)/launch/description.launch">
+            <arg name="robot_name" value="$(arg robot_name)" />
+            <arg name="tf_prefix" value="$(arg tf_prefix)" />
+        </include>
+
+        <!--whether to use simulation-->
+        <group unless="$(arg sim)">
+            <!--depth camera is turned on-->
+            <!--
+            <include file="$(find jethexa_peripherals)/launch/camera.launch">
+                <arg name="camera" value="$(arg depth_camera_name)" />
+                <arg name="tf_prefix" value="$(arg tf_prefix)" />
+            </include>
+            -->
+
+            <!-- IMU -->
+            <!--
+			<include file="$(find jethexa_peripherals)/launch/imu.launch">
+					<arg name="tf_prefix" value="$(arg tf_prefix)" />
+					<arg name="freq" value="20" />
+			</include>
+            -->
+
+            <!--Lidar is turned on-->
+            <include unless="$(arg use_depth_camera)" file="$(find jethexa_peripherals)/launch/lidar.launch">
+                <arg name="scan_topic" value="$(arg scan_raw)" />
+                <arg name="tf_prefix" value="$(arg tf_prefix)" />
+                <arg name="frame_id" value="lidar_link" />
+            </include>
+
+            <!--robot motion control-->
+            <include file="$(find jethexa_controller)/launch/jethexa_controller.launch">
+                <arg name="robot_name" value="$(arg robot_name)" />
+                <arg name="tf_prefix" value="$(arg tf_prefix)" />
+                <arg name="tf_enable" value="false" />
+                <arg name="odom_enable" value="false" />
+            </include>
+
+        </group>
+
+        <group if="$(arg use_depth_camera)">
+            <!--depth camera simulates Lidar-->
+            <include file="$(find jethexa_slam)/launch/include/depthimage_to_laserscan.launch">
+                <arg name="depth_topic" value="$(arg topic_prefix)/$(arg depth_camera_name)/depth/image_raw" />
+                <arg name="camera_info_topic" value="$(arg topic_prefix)/$(arg depth_camera_name)/depth/camera_info" />
+                <arg name="output_frame_id" value="$(arg topic_prefix)/$(arg depth_camera_name)_link" />
+            </include>
+        </group>
+
+        <!-- Lidar simulates odometer -->
+        <include file="$(find jethexa_slam)/launch/include/rf2o_laser_odometry.launch">
+            <arg name="scan_topic" value="$(arg scan_topic)" />
+            <arg name="odom_topic" value="odom/laser" />
+            <arg name="odom_frame_id" value="$(arg odom_frame_id)" />
+            <arg name="base_frame_id" value="$(arg base_frame_id)" />
+            <arg name="laser_frame_id" value="$(arg lidar_frame_id)" />
+            <arg name="publish_tf" value="false" />
+        </include>
+
+        <!-- Odometer integrates filter -->
+        <include file="$(find jethexa_slam)/launch/include/jethexa_ekf.launch">
+            <arg name="odom_topic" value="$(arg odom_topic)" />
+            <arg name="tf_prefix" value="$(arg tf_prefix)" />
+            <arg name="robot_name" value="$(arg robot_name)" />
+        </include>
+
+        <!-- start the AMCL Adaptive Monte Carlo Localization Algorithm Package -->
+        <include file="$(find jethexa_navigation)/launch/include/amcl.launch">
+            <arg name="scan_topic" value="$(arg scan_topic)"/>
+            <arg name="map_topic" value="$(arg map_topic)"/>
+            <arg name="map_frame_id" value="$(arg map_frame_id)"/>
+            <arg name="odom_frame_id" value="$(arg odom_frame_id)"/>
+            <arg name="base_frame_id" value="$(arg base_frame_id)"/>
+            <arg name="use_map_topic" value="true"/>
+
+            <arg if="$(eval robot_name == master_name)" name="initial_pose_x" value="0.0"/>
+            <arg if="$(eval robot_name == master_name)" name="initial_pose_y" value="0.0"/>
+
+            <arg if="$(eval robot_name == 'jethexa_1' and multi_mode == 'row')" name="initial_pose_x" value="0.0"/>
+            <arg if="$(eval robot_name == 'jethexa_1' and multi_mode == 'row')" name="initial_pose_y" value="0.8"/>
+
+            <arg if="$(eval robot_name == 'jethexa_1' and multi_mode == 'column')" name="initial_pose_x" value="-0.6"/>
+            <arg if="$(eval robot_name == 'jethexa_1' and multi_mode == 'column')" name="initial_pose_y" value="0.0"/>
+
+            <arg if="$(eval robot_name == 'jethexa_2' and multi_mode == 'row')" name="initial_pose_x" value="0.0"/>
+            <arg if="$(eval robot_name == 'jethexa_2' and multi_mode == 'row')" name="initial_pose_y" value="-0.8"/>
+
+            <arg if="$(eval robot_name == 'jethexa_2' and multi_mode == 'column')" name="initial_pose_x" value="-1.2"/>
+            <arg if="$(eval robot_name == 'jethexa_2' and multi_mode == 'column')" name="initial_pose_y" value="0.0"/>
+
+            <arg name="initial_pose_a" value="0.0"/>
+        </include>
+    </group>
+</launch>

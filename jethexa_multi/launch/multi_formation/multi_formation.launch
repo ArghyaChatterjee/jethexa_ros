@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<launch>
+    <!--row:横 column:纵-->
+    <arg name="multi_mode" default="row" doc="opt: row, column"/>
+
+    <arg name="master_name" default="$(env MASTER_NAME)"/>
+    <arg name="robot1_name" default="jethexa_1"/>
+    <arg name="robot2_name" default="jethexa_2"/>
+
+    <!--set robot initial relative position-->
+    <include file="$(find jethexa_multi)/launch/multi_formation/tf_init.launch">
+        <arg name="multi_mode" value="$(arg multi_mode)"/>
+        <arg name="master_name" value="$(arg master_name)"/>
+        <arg name="robot1_name" value="$(arg robot1_name)"/>
+        <arg name="robot2_name" value="$(arg robot2_name)"/>
+    </include>
+
+    <!--send command to jethexa_1-->
+    <node name="jethexa_1_tf_listener" pkg="jethexa_multi" type="slave_tf_listener.py" respawn="false" output="screen">
+        <param name="base_frame_id" value="$(arg robot1_name)/base_link"/>
+        <param name="target_frame" value="$(arg multi_mode)_1"/>
+        <param name="cmd_vel" value="/$(arg robot1_name)/jethexa_controller/cmd_vel"/>
+    </node>
+
+    <!--send command to jethexa_2-->
+    <!--
+    <node name="jethexa_2_tf_listener" pkg="jethexa_multi" type="slave_tf_listener.py" respawn="false" output="screen">
+        <param name="base_frame_id" value="$(arg robot2_name)/base_link"/>
+        <param name="target_frame" value="$(arg multi_mode)_2"/>
+        <param name="cmd_vel" value="/$(arg robot2_name)/jethexa_controller/cmd_vel"/>
+    </node>
+    -->
+</launch>
+

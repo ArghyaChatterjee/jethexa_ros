@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="multi_mode" default="row" doc="opt: row, column"/>
+
+    <arg name="master_name" default="$(env MASTER_NAME)"/>
+    <arg name="robot1_name" default="jethexa_1"/>
+    <arg name="robot2_name" default="jethexa_2"/>
+
+    <!--horizontal formation-->
+    <group if="$(eval multi_mode == 'row')">
+        <node pkg="tf" type="static_transform_publisher" name="base_to_robot1" args=" 0  0.8 0 0 0 0 $(arg master_name)/base_link $(arg multi_mode)_1 50" />
+        <node pkg="tf" type="static_transform_publisher" name="base_to_robot2" args=" 0 -0.8 0 0 0 0 $(arg master_name)/base_link $(arg multi_mode)_2 50" />
+    </group>
+
+    <!--vertical formation-->
+    <group if="$(eval multi_mode == 'column')">
+        <node pkg="tf" type="static_transform_publisher" name="base_to_robot1" args="-0.6 0 0 0 0 0 $(arg master_name)/base_link $(arg multi_mode)_1 50" />
+        <node pkg="tf" type="static_transform_publisher" name="base_to_robot2" args="-1.2 0 0 0 0 0 $(arg master_name)/base_link $(arg multi_mode)_2 50" />
+    </group>
+</launch>
