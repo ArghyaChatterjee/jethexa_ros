@@ -1,0 +1,24 @@
+robot_radius: 0.14    # 机器人半径
+#footprint: [[-0.17, -0.14], [-0.17, 0.14], [0.17, 0.14], [0.17, -0.14]]
+
+obstacle_layer:
+  enabled: true
+  combination_method: 1 # 只能设置为0或1，用来更新地图上的代价值，一般设置为1
+  track_unknown_space: true # 如果设置为false，那么地图上代价值就只分为致命碰撞和自由区域两种，如果设置为true，那么就分为致命碰撞，自由区域和未知区域三种
+  obstacle_range: 3.0   # 更新以机器人为中心，按此数值为半径内的障碍物信息
+  raytrace_range: 2.5   # 更新以机器人为中心，按此数值为半径内的自由空间
+  observation_sources: scan_filtered # 观察源，我们这里是激光数据
+  scan_filtered: {
+    sensor_frame: base_link,  # 设置传感器参考坐标系名称
+    observation_persistence: 0.0,  # 传感器读数保存多久（单位秒）， 如果为0则保存最新的数据.
+    max_obstacle_height: 0.6, # 传感器读数的最大有效高度，以米为单位
+    min_obstacle_height: 0.0, # 传感器最低有效读数，以米为单位
+    data_type: LaserScan,  # 参数设置为LaserScan或PointCloud，这取决于主题使用的消息
+    topic: scan/raw, # 应该设置为发布传感器数据的主题的名称
+    marking: true, # 传感器是否用于向代价地图添加障碍物信息
+    clearing: true # 传感器是否用于向代价地图清除障碍物信息
+    }
+ 
+static_layer:
+  enabled: true
+  map_topic: "map"

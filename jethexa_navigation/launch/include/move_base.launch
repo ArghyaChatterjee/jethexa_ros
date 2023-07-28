@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<launch>
+	<arg name="cmd_vel_topic" default="jethexa_controller/cmd_vel" />
+	<arg name="use_dwa" default="false" />
+	
+	<arg name="global_costmap_map_topic" default="map"/>
+	<arg name="global_costmap_sensor_frame" default="base_link"/>
+	<arg name="global_costmap_sensor_topic" default="scan"/>
+	<arg name="global_costmap_global_frame" default="map"/>
+	<arg name="global_costmap_robot_base_frame" default="base_link"/>
+
+	<arg name="local_costmap_map_topic" default="map"/>
+	<arg name="local_costmap_sensor_frame" default="base_link"/>
+	<arg name="local_costmap_sensor_topic" default="scan"/>
+	<arg name="local_costmap_global_frame" default="odom"/>
+	<arg name="local_costmap_robot_base_frame" default="base_link"/>
+
+	<arg name="teb_odom_topic" default="odom"/>
+	<arg name="teb_map_frame" default="odom"/>
+
+  	<!-- move_base -->
+  	<node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+	<!--全局代价地图和局部代价地图配置参数-->
+		<rosparam file="$(find jethexa_navigation)/config/costmap_common_params.yaml" command="load" ns="global_costmap" />
+		<rosparam file="$(find jethexa_navigation)/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
+		<rosparam file="$(find jethexa_navigation)/config/local_costmap_params.yaml" command="load" />
+		<rosparam file="$(find jethexa_navigation)/config/global_costmap_params.yaml" command="load" />
+
+		<!--move_base基础参数-->
+		<rosparam file="$(find jethexa_navigation)/config/move_base_params.yaml" command="load" />
+
+		<!--全局规划-->
+		<rosparam file="$(find jethexa_navigation)/config/base_global_planner_param.yaml" command="load" />
+
+		<!--局部规划-->
+		<!--rosparam file="$(find jethexa_navigation)/config/dwa_local_planner_params.yaml" command="load" /-->
+		<rosparam file="$(find jethexa_navigation)/config/teb_local_planner_params.yaml" command="load" />
+
+	        <!-- Set tf_prefix for frames explicity, overwriting defaults -->
+		<param name="global_costmap/obstacle_layer/scan_filtered/topic" value="$(arg global_costmap_sensor_topic)"/>
+		<param name="global_costmap/obstacle_layer/scan_filtered/sensor_frame" value="$(arg global_costmap_sensor_frame)"/>
+		<param name="global_costmap/global_frame" value="$(arg global_costmap_global_frame)"/>
+		<param name="global_costmap/robot_base_frame" value="$(arg global_costmap_robot_base_frame)"/>
+		<param name="global_costmap/static_layer/map_topic" value="$(arg global_costmap_map_topic)"/>
+		
+		<param name="local_costmap/obstacle_layer/scan_filtered/topic" value="$(arg local_costmap_sensor_topic)"/>
+	        <param name="local_costmap/obstacle_layer/scan_filtered/sensor_frame" value="$(arg local_costmap_sensor_frame)"/>
+		<param name="local_costmap/global_frame" value="$(arg local_costmap_global_frame)"/>
+		<param name="local_costmap/robot_base_frame" value="$(arg local_costmap_robot_base_frame)"/> 
+		<param name="local_costmap/static_layer/map_topic" value="$(arg local_costmap_map_topic)"/>
+		
+		<param name="TebLocalPlannerROS/odom_topic" value="$(arg teb_odom_topic)"/>
+		<param name="TebLocalPlannerROS/map_frame" value="$(arg teb_map_frame)"/>
+		<remap from="cmd_vel" to="$(arg cmd_vel_topic)"/>
+  	</node>
+</launch>

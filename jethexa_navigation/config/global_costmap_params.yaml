@@ -1,0 +1,16 @@
+# 全局代价地图
+global_costmap:
+  global_frame: map
+  robot_base_frame: base_link
+  update_frequency: 1.0
+  publish_frequency: 1.0
+  #static_map: true
+  transform_tolerance: 1
+  plugins:
+    - {name: static_layer,    type: "costmap_2d::StaticLayer"}
+    - {name: obstacle_layer,  type: "costmap_2d::ObstacleLayer"}
+    - {name: inflation_layer, type: "costmap_2d::InflationLayer"}
+  inflation_layer:
+      enabled: true
+      cost_scaling_factor: 10 # 代价比例系数，越大则代价值越小, cost_scaling_factor越大占用的计算量越小
+      inflation_radius: 0.35 # 不能大于robot_radius, 全局规划时base_link与障碍物保持的最小距离, 小于此值则规划失败

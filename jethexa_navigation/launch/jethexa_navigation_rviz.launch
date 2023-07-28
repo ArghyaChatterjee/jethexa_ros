@@ -1,0 +1,3 @@
+<launch>
+	<node name="mapping_rviz" pkg="rviz" type="rviz" args="-d $(find jethexa_navigation)/rviz/jethexa_navigation.rviz" />
+</launch>

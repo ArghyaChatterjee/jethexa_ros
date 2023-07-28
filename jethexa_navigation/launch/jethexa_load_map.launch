@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<launch>
+	<!--the map to load-->
+	<arg name="robot_name" default="$(env ROBOT_NAME)"/>
+	<arg name="tf_prefix" default="$(arg robot_name)" />
+
+	<arg name="map" default="office"/>
+	<arg name="map_file" default="$(find jethexa_slam)/maps/$(arg map).yaml"/>
+
+	<!-- start Map server feature pack. Publish map -->
+	<node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" ns="$(arg robot_name)">
+		<param name="frame_id" value="$(arg tf_prefix)/map" />
+	</node>
+</launch>        
+

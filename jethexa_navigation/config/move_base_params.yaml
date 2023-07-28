@@ -1,0 +1,69 @@
+# move_base基础参数配置，包括全局、局部规划器以及重恢复行为
+shutdown_costmaps: false # 当move_base不活动时是否关闭costmaps的加载
+
+base_global_planner: "global_planner/GlobalPlanner" # 指定用于move_base的全局规划器插件名称
+#base_global_planner: "navfn/NavfnROS"
+base_local_planner: "teb_local_planner/TebLocalPlannerROS" # 指定用于move_base的局部规划器名称
+#base_local_planner: "dwa_local_planner/DWAPlannerROS"
+
+controller_frequency: 10.0 # 向底盘控制移动话题cmd_vel发送命令的频率hz
+controller_patience: 15.0 # 控制器超过这个时间没有收到控制指令则认为局部路径规划失败
+
+planner_frequency: 5.0 # 全局规划操作的执行频率.如果设置为 0.0,则全局规划器仅在接收到新的目标点, 或者局部规划器报告路径堵塞时才会重新执行规划操作
+planner_patience: 10.0 # 全局规划时间，超时则认为失败
+
+oscillation_timeout: 10.0 # 执行修复机制前,允许振荡的时长
+oscillation_distance: 0.03 # 配合timeout的含义就是，5s内超过0.1m范围内的运动才不算陷入局部震荡，如果不符则说明全局路径规划失败，将执行恢复
+
+max_planning_retries: 1 # 在执行恢复行为之前允许计划重试多少次。值-1.0对应于无限重试（即全局规划失败后立刻执行）。
+
+recovery_behavior_enabled: true # 是否启用move_base恢复行为以尝试清理空间
+clearing_rotation_allowed: true # 确定机器人在尝试清理空间时是否会尝试就地旋转。注意：此参数仅在使用默认恢复行为时使用
+
+# 当move_base未能按照指定的顺序找到有效计划时，将运行这些行为。在每个行为完成后，move_base将尝试制定计划。
+# 如果规划成功，move_base将继续正常运行。否则，将执行列表中的下一个恢复行为
+recovery_behaviors:
+  - name: 'conservative_reset'
+    type: 'clear_costmap_recovery/ClearCostmapRecovery'
+  #- name: 'aggressive_reset'
+  #  type: 'clear_costmap_recovery/ClearCostmapRecovery'
+  #- name: 'super_reset'
+  #  type: 'clear_costmap_recovery/ClearCostmapRecovery'
+  - name: 'clearing_rotation'
+    type: 'rotate_recovery/RotateRecovery'
+  # - name: 'move_slow_and_clear'
+    # type: 'move_slow_and_clear/MoveSlowAndClear'
+
+# static_layer：静态地图层，通常是slam建立完成的静态地图
+# obstacle_layer：障碍地图层，用于动态记录传感器感知到的障碍物信息
+# inflation_layer：膨胀层，在以上两层地图上进行膨胀（向外扩张），以避免机器人撞上障碍物
+
+# 保守复位
+conservative_reset:
+  reset_distance: 2.0 #当试图清除地图中的空间时，距离机器人的距离（以米为单位）将从成本地图中清除障碍物。请注意，此参数仅在move_base使用默认恢复行为时使用
+  #layer_names: [static_layer, obstacle_layer, inflation_layer]
+  layer_names: [obstacle_layer]
+
+# 旋转清除
+clearing_rotation:
+  yaw_goal_tolerance: 0.05
+  acc_lim_th: 0.02
+  max_rotational_vel: 0.3
+  min_in_place_rotational_vel: 0.1
+
+# 激进复位
+aggressive_reset:
+  reset_distance: 3.0
+  #layer_names: [static_layer, obstacle_layer, inflation_layer]
+  layer_names: [obstacle_layer]
+
+super_reset:
+  reset_distance: 5.0
+  #layer_names: [static_layer, obstacle_layer, inflation_layer]
+  layer_names: [obstacle_layer]
+
+move_slow_and_clear:
+  clearing_distance: 0.5 # 清除障碍物的距离机器人的半径，以米为单位。
+  limited_trans_speed: 0.05 # 在执行此恢复行为时，机器人的平移速度（以米/秒为单位）将受到限制。
+  limited_rot_speed: 0.1 # 在执行此恢复行为时，机器人的旋转速度（以弧度/秒为单位）将受到限制。
+  limited_distance: 0.3 # 在解除速度限制之前，机器人必须移动的距离（以米为单位）。

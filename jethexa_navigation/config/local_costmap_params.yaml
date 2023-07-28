@@ -1,0 +1,20 @@
+# 局部代价图
+local_costmap:
+  global_frame: odom                # 用于操作成本图的全局框架。
+  robot_base_frame: base_link       # 机器人基本连杆的框架名称。
+  update_frequency: 3.0             # 要更新的地图的频率（Hz）。
+  publish_frequency: 3.0            # 地图发布显示信息的频率（Hz）。静态全局地图不需要发布
+  #static_map: false                # 是否为静态地图，全局地图一般为静态
+  rolling_window: true              # 更新全局地图，与上一个参数相反。如果static_map参数设置为true，则该参数必须设置为false
+  width: 4.0                        # 地图的宽度（以米为单位）
+  height: 4.0                       # 地图的高度（以米为单位）。
+  resolution: 0.025                 # 地图的分辨率，以米/单元为单位。
+  transform_tolerance: 1            # 指定可容忍的转换 (tf) 数据延迟（以秒为单位）
+  plugins:
+    - {name: obstacle_layer,  type: "costmap_2d::ObstacleLayer"}
+    - {name: inflation_layer, type: "costmap_2d::InflationLayer"}
+
+  inflation_layer:
+      enabled: true
+      cost_scaling_factor: 5.0 # 代价比例系数，越大则代价值越小, cost_scaling_factor越大占用的计算量越小
+      inflation_radius: 0.42 # 不能大于robot_radius, 全局规划时base_link与障碍物保持的最小距离, 小于此值则规划失败
