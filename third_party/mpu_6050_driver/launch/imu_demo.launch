@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="gui" default="true" />
+  <arg name="imu_link" default="imu_link"/>
+  <arg name="fixed_frame" default="world"/>
+
+  <node name="imu" pkg="mpu_6050_driver" type="imu_node.py" output="screen">
+	<param name="imu_topic" value="/imu/raw" />
+  <param name="imu_hz" value="100" />
+	<param name="imu_link" value="$(arg imu_link)" />
+  </node>
+
+  <node name="imu_filter" pkg="imu_complementary_filter" type="complementary_filter_node" >
+	<param name="use_mag" value="false" />
+	<remap from="/imu/data_raw" to="/imu/raw" />
+	<remap from="/imu/data" to="/imu/filtered"/>
+  </node> 
+  
+  <node name="rpy_tf" pkg="mpu_6050_driver" type="tf_broadcaster_imu.py" output="screen">
+	<param name="fixed_frame" value="$(arg fixed_frame)"/>
+  <param name="imu_link" value="$(arg imu_link)"/>
+  </node>
+  
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find mpu_6050_driver)/config/rviz_config.rviz"/> 
+</launch>
