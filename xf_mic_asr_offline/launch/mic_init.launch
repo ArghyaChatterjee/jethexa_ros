@@ -1,0 +1,13 @@
+<launch>
+    <rosparam command="load" file="$(find xf_mic_asr_offline)/config/appid_params.yaml" />
+    <rosparam command="load" file="$(find xf_mic_asr_offline)/config/recognition_params.yaml" />
+
+    <!--set as the storage path for feature package-->
+    <arg name="package_path" default = "$(find xf_mic_asr_offline)" />
+
+    <node pkg="xf_mic_asr_offline" type="voice_control" name="xf_asr_offline_node" output="screen">
+        <param name="source_path" type="string" value="$(find xf_mic_asr_offline)"/>  
+    </node>
+    <node pkg="xf_mic_asr_offline" type="call_recognition" name="call_recognition" />
+    <node pkg="xf_mic_asr_offline" type="get_result.py" name="get_result"/>
+</launch>
