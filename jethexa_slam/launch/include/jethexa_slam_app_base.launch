@@ -1,0 +1,51 @@
+<launch>
+    <arg name="tf_prefix" default="" />
+    <arg name="robot_name" default="jethexa" />
+
+    <!-- URDF descriptio of robot -->
+    <include file="$(find jethexa_description)/launch/description.launch">
+        <arg name="tf_prefix" value="$(arg tf_prefix)" />
+    </include>
+
+    <!-- robot motion control -->
+    <include file="$(find jethexa_controller)/launch/jethexa_controller_ros_app.launch">
+	<arg name="odom_enable" value="false" />
+	<arg name="tf_enable" value="false" />
+    </include>
+
+    <!-- Lidar -->
+    <include file="$(find jethexa_peripherals)/launch/lidar.launch">
+        <arg name="tf_prefix" value="$(arg tf_prefix)" />
+        <arg name="scan_topic" value="/scan" />
+    </include>
+
+    <!-- posture sensor -->
+    <!--
+        <include file="$(find jethexa_peripherals)/launch/imu.launch">
+            <arg name="tf_prefix" value="$(arg tf_prefix)" />
+            <arg name="freq" value="50" />
+        </include>
+    -->
+
+    <!-- camera -->
+    <include file="$(find jethexa_peripherals)/launch/camera.launch">
+	<arg name="tf_prefix" value="$(arg tf_prefix)" />
+    </include>
+
+    <!-- Lidar simulates odometer -->
+    <include file="$(find jethexa_slam)/launch/include/rf2o_laser_odometry.launch">
+            <arg name="scan_topic" value="/scan" />
+            <arg name="odom_topic" value="odom/laser" />
+            <arg name="odom_frame_id" value="odom" />
+            <arg name="base_frame_id" value="base_link" />
+            <arg name="laser_frame_id" value="laser_link" />
+    </include>
+
+    <!-- odometry filter fusion -->
+    <include file="$(find jethexa_slam)/launch/include/jethexa_ekf.launch">
+        <arg name="tf_prefix" value="$(arg tf_prefix)" />
+        <arg name="robot_name" value="$(arg robot_name)" />
+	<arg name="odom_topic" value="/odom" />
+	<arg name="cmd_vel_topic" value="/cmd_vel" />
+    </include>
+</launch>

@@ -1,0 +1,21 @@
+<launch>
+	<arg name="robot_name" default="jethexa" />
+	<arg name="tf_prefix" default="jethexa" />
+	<arg name="odom_topic" default="" />
+	<arg name="scan_topic" default="scan" />
+
+	<!-- basic skill -->
+	<include file="$(find jethexa_slam)/launch/include/jethexa_slam_base.launch">
+		<arg name="robot_name" value="$(arg robot_name)" />
+		<arg name="tf_prefix" value="$(arg tf_prefix)" />
+		<arg name="scan_topic" value="$(arg scan_topic)" />
+	</include>
+
+  	<node pkg="slam_karto" type="slam_karto" name="slam_karto" output="screen">
+    	<remap from="scan" to="$(arg scan_topic)"/>
+    	<param name="odom_frame" value="$(arg tf_prefix)/odom"/>
+    	<param name="base_frame" value="$(arg tf_prefix)/base_link"/>
+    	<param name="map_update_interval" value="25"/>
+    	<param name="resolution" value="0.025"/>
+  	</node>
+</launch>

@@ -1,0 +1,37 @@
+<!-- 
+  This node presents a fast and precise method to estimate the planar motion of a lidar
+  from consecutive range scans. It is very useful for the estimation of the robot odometry from
+  2D laser range measurements.
+  
+  For more info please visit: http://mapir.isa.uma.es/work/rf2o
+  
+  Requirements:
+  - 2D laser scan, publishing sensor_msgs::LaserScan
+  - TF transform from the laser to the robot base
+  - MRPT (http://www.mrpt.org/)
+        - Tested with v1.3 (official ubuntu release)
+-->
+
+<launch>
+    <arg name="scan_topic" default="/scan" />
+    <arg name="odom_topic" default="/odom_laser" />
+    <arg name="odom_frame_id" default="odom" />
+    <arg name="base_frame_id" default="base_link" />
+    <arg name="laser_frame_id" default="laser_link" />
+    <arg name="publish_tf" default="false" />
+    <arg name="freq" default="6.0" />
+
+  <node pkg="rf2o_laser_odometry" type="rf2o_laser_odometry_node" name="rf2o_laser_odometry" output="screen">
+    <param name="laser_scan_topic" value="$(arg scan_topic)"/>        # topic where the lidar scans are being published
+    <param name="odom_topic" value="/odom_rf2o" />              # topic where tu publish the odometry estimations
+    <param name="publish_tf" value="$(arg publish_tf)" />                   # wheter or not to publish the tf::transform (base->odom)
+    <param name="base_frame_id" value="$(arg base_frame_id)"/>            # frame_id (tf) of the mobile robot base. A tf transform from the laser_frame to the base_frame is mandatory
+    <param name="odom_frame_id" value="$(arg odom_frame_id)" />                # frame_id (tf) to publish the odometry estimations    
+    <param name="laser_frame_id" value="$(arg laser_frame_id)" />
+    <param name="init_pose_from_topic" value="" /> # (Odom topic) Leave empty to start at point (0,0)
+    <param name="freq" value="$(arg freq)"/>                            # Execution frequency.
+    <param name="verbose" value="false" />                       # verbose
+    <remap from="/odom_rf2o" to="$(arg odom_topic)" />
+  </node>
+  
+</launch>

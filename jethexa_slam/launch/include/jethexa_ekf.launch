@@ -1,0 +1,21 @@
+<launch>
+  <arg name="robot_name" default="jethexa" />
+  <arg name="tf_prefix" default="jethexa" />
+  <arg name="cmd_vel_topic" default="jethexa_controller/cmd_vel" />
+  <arg name="odom_topic" default="odom/filtered" />
+  <node pkg="robot_localization" type="ekf_localization_node" name="ekf_se" clear_params="true">
+
+    <param name="map_frame" value="map" />          # Defaults to the value of map_frame if unspecified
+    <param name="odom_frame" value="$(arg tf_prefix)/odom" />           # Defaults to "odom" if unspecified
+    <param name="base_link_frame" value="$(arg tf_prefix)/base_link" /> # Defaults to "base_link" if unspecified
+    <param name="world_frame" value="$(arg tf_prefix)/odom" />          # Defaults to the value of odom_frame if unspecified
+
+    <rosparam command="load" file="$(find jethexa_slam)/config/jethexa_ekf.yaml" />
+    <remap from="odometry/filtered" to="$(arg odom_topic)" />
+    <remap from="cmd_vel" to="$(arg cmd_vel_topic)" />
+    <remap from="set_pose" to="jethexa_controller/set_pose" />
+    <!--  Placeholder for output topic remapping
+    <remap from="accel/filtered" to=""/>
+    > -->
+  </node>
+</launch>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<launch>
+	<!-- general parameter -->
+	<arg name="robot_name" default="jethexa"/> # robot name
+	<arg name="tf_prefix" default="jethexa"/> # robot name
+	<arg name="odom_topic" default="odom/filtered"/> # odom topic
+	<arg name="scan_topic" default="scan" /> # Lidar topic
+
+	<arg name="slam_methods" default="cartographer" doc="slam type [gmapping,karto,hector,cartographer]"/>
+	<group ns="$(arg robot_name)">
+		<!-- Start the selected SLAM algorithm -->	
+		<include file="$(find jethexa_slam)/launch/jethexa_$(arg slam_methods).launch">
+			<arg name="robot_name" value="$(arg robot_name)"/>
+			<arg name="tf_prefix" value="$(arg tf_prefix)"/>
+			<arg name="scan_topic" value="$(arg scan_topic)" />
+			<arg name="odom_topic" value="$(arg odom_topic)" />
+		</include>
+	</group>
+</launch>

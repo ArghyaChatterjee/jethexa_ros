@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<launch>
+	<!-- general parameter -->
+	<arg name="robot_name" default="jethexa"/> # robot name
+	<arg name="odom_topic" default="odom"/> # odom topic
+	<arg name="slam_methods" default="gmapping" doc="slam type [gmapping,karto,hector,cartographer]"/>
+
+	<!-- Start the selected SLAM algorithm -->	
+	<include file="$(find jethexa_slam)/launch/jethexa_$(arg slam_methods)_app.launch">
+		<arg name="robot_name" value="jethexa"/>
+		<arg name="tf_prefix" value=""/>
+		<arg name="odom_topic" value="$(arg odom_topic)" />
+	</include>
+</launch>

@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<launch>
+	<arg name="tf_prefix"         default="jethexa"/>
+	<arg name="database_path"     default="~/.ros/rtabmap.db"/>
+	<arg name="rgbd_odometry"     default="false"/>
+	<arg name="localization"      default="false"/>
+	<arg name="simulation"        default="false"/>
+	<arg name="sw_registered"     default="false"/>
+	<arg     if="$(arg localization)" name="args"  default=""/>
+	<arg unless="$(arg localization)" name="args"  default="--delete_db_on_start"/>
+
+	<arg     if="$(arg simulation)" name="rgb_topic"   default="/camera/rgb/image_raw"/>
+	<arg unless="$(arg simulation)" name="rgb_topic"   default="/camera/rgb/image_raw"/>
+	<arg     if="$(arg simulation)" name="depth_topic" default="/camera/depth/image_raw"/>
+	<arg unless="$(arg simulation)" name="depth_topic" default="/camera/depth/image_raw"/>
+	<arg name="camera_info_topic" default="/camera/rgb/camera_info"/>
+
+	<arg name="wait_for_transform"  default="1"/> 
+	<arg name="scan_topic" default="scan"/>
+	<arg name="map_topic" default="map"/>
+	<arg name="map_frame" default="map"/>
+	<arg name="odom_frame" default="odom"/>
+	<arg name="base_frame" default="base_link"/>
+	<arg name="move_base" default="move_base"/>
+
+	<!-- Mapping -->
+	<arg name="subscribe_scan" default="false"/>
+	
+	<node name="rtabmap" pkg="rtabmap_ros" type="rtabmap" output="screen" args="$(arg args)" ns="rtabmap">
+		<param name="queue_size" value="100"/>
+		<param name="Rtabmap/DetectionRate" value="6.0"/> 
+		<param name="approx_sync" value="true"/>
+
+		<param name="database_path" value="$(arg database_path)"/>
+		<param name="frame_id" value="$(arg base_frame)"/>
+		<param name="map_frame_id" value="$(arg map_frame)"/>
+		<param name="wait_for_transform_duration" value="$(arg wait_for_transform)"/>
+		<param name="subscribe_depth" value="true"/>
+		<param name="subscribe_scan" value="$(arg subscribe_scan)"/>
+		<param name="map_always_update" value="true"/>
+  
+		<!-- When sending goals on /rtabmap/goal topic, use actionlib to communicate with move_base --> 
+		<param name="use_action_for_goal" value="true"/>
+		<remap from="move_base"           to="$(arg move_base)"/>
+	
+		<!-- inputs -->
+		<remap from="scan"            to="$(arg scan_topic)"/>
+		<remap from="rgb/image"       to="$(arg rgb_topic)"/>
+		<remap from="depth/image"     to="$(arg depth_topic)"/>
+		<remap from="rgb/camera_info" to="$(arg camera_info_topic)"/>
+
+		<!-- Fix odom covariance as in simulation the covariance in /odom topic is high (0.1 for linear and 0.05 for angular) -->
+		<param unless="$(arg rgbd_odometry)" name="odom_frame_id" value="$(arg odom_frame)"/>
+		<param unless="$(arg rgbd_odometry)" name="odom_tf_linear_variance" value="0.001"/>
+		<param unless="$(arg rgbd_odometry)" name="odom_tf_angular_variance" value="0.001"/>
+	  
+		<!-- output -->
+		<remap from="grid_map" to="$(arg map_topic)"/>
+		
+		<!-- RTAB-Map's parameters: do "rosrun rtabmap rtabmap (double-dash)params" to see the list of available parameters. -->
+		<param name="RGBD/ProximityBySpace"        type="string" value="true"/>   <!-- Local loop closure detection (using estimated position) with locations in WM -->
+		<param name="RGBD/OptimizeFromGraphEnd"    type="string" value="false"/>  <!-- Set to false to generate map correction between /map and /odom -->
+		<param name="Kp/MaxDepth"                  type="string" value="3.5"/>
+		<param name="Reg/Strategy"                 type="string" value="0"/>      <!-- Loop closure transformation: 0=Visual, 1=ICP, 2=Visual+ICP -->
+		<param name="Icp/CorrespondenceRatio"      type="string" value="0.3"/>
+		<param name="Vis/MinInliers"               type="string" value="15"/>      <!-- 3D visual words minimum inliers to accept loop closure -->
+		<param name="Vis/InlierDistance"           type="string" value="0.1"/>    <!-- 3D visual words correspondence distance -->
+		<param name="RGBD/AngularUpdate"           type="string" value="0.05"/>    <!-- Update map only if the robot is moving -->
+		<param name="RGBD/LinearUpdate"            type="string" value="0.05"/>    <!-- Update map only if the robot is moving -->
+		<param name="RGBD/ProximityPathMaxNeighbors" type="string" value="0"/> 
+		<param name="Rtabmap/TimeThr"              type="string" value="0"/>
+		<param name="Mem/RehearsalSimilarity"      type="string" value="0.30"/>
+		<param name="Reg/Force3DoF"                type="string" value="true"/>
+		<param name="GridGlobal/MinSize"           type="string" value="20"/>
+		<param name="Grid/Sensor" type="string" value="0"/>
+	  
+		<!-- localization mode -->
+		<param     if="$(arg localization)" name="Mem/IncrementalMemory" type="string" value="false"/>
+		<param unless="$(arg localization)" name="Mem/IncrementalMemory" type="string" value="true"/>
+		<param name="Mem/InitWMWithAllNodes" type="string" value="$(arg localization)"/>
+	</node>
+</launch>

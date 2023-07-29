@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<launch>
+	<!-- general parameter -->
+	<arg name="robot_name" default="jethexa"/> # robot name
+	<group ns="$(arg robot_name)">
+		<node name="keyboard_control" pkg="jethexa_controller" type="keyboard_control.py" output="screen" />
+	</group>
+</launch>
