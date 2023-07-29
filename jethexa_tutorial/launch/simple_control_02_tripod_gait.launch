@@ -1,0 +1,7 @@
+<launch>
+	<include file="$(find jethexa_controller)/launch/jethexa_controller.launch"></include>
+
+	<node name="simple_control_02" pkg="jethexa_tutorial" type="simple_control_02_tripod_gait.py" output="screen" required="true">
+	</node>
+
+</launch>

@@ -1,0 +1,5 @@
+<launch>
+	<include file="$(find jethexa_peripherals)/launch/camera.launch"></include>
+	<node name="tag_disp" pkg="jethexa_tutorial" type="ros_opencv_04_tag_track.py" output="screen">
+	</node>
+</launch>

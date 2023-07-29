@@ -1,0 +1,7 @@
+<launch>
+	<include file="$(find jethexa_peripherals)/launch/camera.launch"></include>
+
+	<node name="hand_detect_node" pkg="jethexa_tutorial" type="ros_dl_09_facial_expression.py" output="screen" respawn="true">
+		<param name="fer_model" value="/home/hiwonder/weights/fer_vgg19_48.trt"/>
+	</node>
+</launch>

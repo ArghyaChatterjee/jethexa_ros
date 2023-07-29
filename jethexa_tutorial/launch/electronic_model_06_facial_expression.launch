@@ -1,0 +1,13 @@
+<launch>
+	<include file="$(find jethexa_peripherals)/launch/camera.launch"></include>	
+
+	<node pkg="jethexa_tutorial" 
+		  type="electronic_module_06_facial_expression.py"  
+		  name="facial_expression_node" output="screen"
+		  respawn="true"
+	>
+		<env name="DISPLAY" value=":0.0" />
+		<param name="fer_model" value="/home/hiwonder/weights/fer_vgg19_48.trt" />
+	</node>
+
+</launch>

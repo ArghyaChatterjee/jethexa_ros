@@ -1,0 +1,11 @@
+<launch>
+	<arg name="period" default="0.8" />
+	<arg name="stride" default="40" />
+	<include file="$(find jethexa_controller)/launch/jethexa_controller.launch"></include>
+
+	<node name="adv_ctrl_01" pkg="jethexa_tutorial" type="advanced_control_01_speed_control.py" 
+		args="-p $(arg period) -s $(arg stride)"
+		output="screen">
+	</node>
+
+</launch>

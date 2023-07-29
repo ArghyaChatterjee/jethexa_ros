@@ -1,0 +1,7 @@
+<launch>
+	<include file="$(find jethexa_peripherals)/launch/camera.launch"></include>
+
+	<node name="waste_classification_node" pkg="jethexa_tutorial" type="ros_dl_04_waste_classification.py" output="screen">
+		<param name="weights" value="/home/hiwonder/weights/waste_v5_160.trt"/>
+	</node>
+</launch>

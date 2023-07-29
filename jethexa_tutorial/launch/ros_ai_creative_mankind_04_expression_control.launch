@@ -1,0 +1,6 @@
+<launch>
+	<include file="$(find jethexa_peripherals)/launch/camera.launch"></include>
+
+	<node name="expressin_node" pkg="jethexa_tutorial" type="ros_ai_creative_mankind_04_expression_control.py" respawn="true" output="screen">
+	</node>
+</launch>

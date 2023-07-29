@@ -1,0 +1,5 @@
+<launch>
+	<include file="$(find jethexa_peripherals)/launch/imu.launch"></include>
+	<node name="self_balancing_02" pkg="jethexa_tutorial" type="ros_ai_creative_selfbalancing_02.py" output="screen">
+	</node>
+</launch>

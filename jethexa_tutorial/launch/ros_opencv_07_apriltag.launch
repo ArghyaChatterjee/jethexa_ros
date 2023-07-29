@@ -1,0 +1,6 @@
+<launch>
+	<include file="$(find jethexa_peripherals)/launch/camera.launch"></include>
+	<node name="apriltag_node" pkg="jethexa_tutorial" type="ros_opencv_07_apriltag.py" output="screen">
+	</node>
+</launch>
+

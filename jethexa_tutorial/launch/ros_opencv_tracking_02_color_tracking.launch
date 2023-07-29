@@ -1,0 +1,9 @@
+<launch>
+	<arg name="color" default="red"/>
+
+	<include file="$(find jethexa_peripherals)/launch/camera.launch"></include>
+	<include file="$(find lab_config)/launch/lab_config_manager.launch"></include>
+
+	<node name="color_tracking_node" pkg="jethexa_tutorial" type="ros_opencv_tracking_02_color_tracking.py" args="$(arg color)" output="screen">
+	</node>
+</launch>

@@ -1,0 +1,4 @@
+<launch>
+	<node name="adv_ctrl_ik_07" pkg="jethexa_tutorial" type="advanced_control_ik_07_wave.py" output="screen">
+	</node>
+</launch>

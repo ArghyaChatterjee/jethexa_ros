@@ -1,0 +1,6 @@
+<launch>
+	<include file="$(find jethexa_peripherals)/launch/camera.launch"></include>
+
+	<node name="face_detect_node" pkg="jethexa_tutorial" type="ros_dl_06_face_detect.py" output="screen">
+	</node>
+</launch>

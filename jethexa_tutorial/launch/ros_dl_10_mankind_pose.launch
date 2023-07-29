@@ -1,0 +1,6 @@
+<launch>
+	<include file="$(find jethexa_peripherals)/launch/camera.launch"></include>
+
+	<node name="mankind_pose_node" pkg="jethexa_tutorial" type="ros_dl_10_mandkind_pose.py" output="screen" respawn="true">
+	</node>
+</launch>

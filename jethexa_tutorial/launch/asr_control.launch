@@ -1,0 +1,6 @@
+<launch>
+	<include file="$(find jethexa_controller)/launch/jethexa_controller.launch"></include>
+	<node name="asr_control_node" pkg="jethexa_tutorial" type="asr_control.py" output="screen">
+	</node>
+
+</launch>

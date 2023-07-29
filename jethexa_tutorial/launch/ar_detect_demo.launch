@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="camera_name" default="camera" />
+    <arg name="image_topic" default="image_rect_color" />
+
+    <arg name="marker_size"             default="5" />
+    <arg name="max_new_marker_error"    default="0.08" />
+    <arg name="max_track_error"         default="0.2" />
+    <arg name="cam_image_topic"         default="/$(arg camera_name)/rgb/$(arg image_topic)" />
+    <arg name="cam_info_topic"          default="/$(arg camera_name)/rgb/camera_info" />
+    <arg name="output_frame"            default="/$(arg camera_name)_link" />
+
+    <node name="ar_track_alvar" pkg="ar_track_alvar" type="individualMarkersNoKinect" respawn="false" output="screen">
+        <param name="marker_size"           type="double" value="$(arg marker_size)" />
+        <param name="max_new_marker_error"  type="double" value="$(arg max_new_marker_error)" />
+        <param name="max_track_error"       type="double" value="$(arg max_track_error)" />
+        <param name="output_frame"          type="string" value="$(arg output_frame)" />
+
+        <remap from="camera_image"  to="$(arg cam_image_topic)" />
+        <remap from="camera_info"   to="$(arg cam_info_topic)" />
+    </node>
+
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find jethexa_tutorial)/rviz/ar.rviz" />
+</launch>

@@ -1,0 +1,6 @@
+<launch>
+	<include file="$(find jethexa_peripherals)/launch/camera.launch"></include>
+	<node name="tag_disp" pkg="jethexa_tutorial" type="electronic_module_07_tag_disp.py" output="screen">
+	</node>
+</launch>
+

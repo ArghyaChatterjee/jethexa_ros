@@ -1,0 +1,7 @@
+<launch>
+	<include file="$(find jethexa_peripherals)/launch/camera.launch"></include>
+
+	<node name="facemask_node" pkg="jethexa_tutorial" type="ros_dl_11_facemask.py" output="screen">
+		<param name="weights" value="/home/hiwonder/weights/facemask_v5_160.trt"/>
+	</node>
+</launch>

@@ -1,0 +1,7 @@
+<launch>
+	<include file="$(find jethexa_peripherals)/launch/camera.launch"></include>
+	<node name="ar_node" pkg="jethexa_tutorial" type="ros_opencv_08_ar.py" output="screen">
+		<param name="model" value="bicycle"/>
+	</node>
+</launch>
+

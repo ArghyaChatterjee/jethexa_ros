@@ -1,0 +1,8 @@
+<launch>
+	<arg name="direction" default="left" />
+	<include file="$(find jethexa_controller)/launch/jethexa_controller.launch"></include>
+
+	<node name="simple_ctrl_05" pkg="jethexa_tutorial" type="simple_control_05_move_left_right.py" args="$(arg direction)" output="screen" required="true">
+	</node>
+
+</launch>

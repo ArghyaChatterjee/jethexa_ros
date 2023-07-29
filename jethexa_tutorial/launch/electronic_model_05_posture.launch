@@ -1,0 +1,6 @@
+<launch>
+	<include file="$(find jethexa_peripherals)/launch/imu.launch"></include>
+	<node name="posture_disp" pkg="jethexa_tutorial" type="electronic_module_05_posture.py" output="screen">
+	</node> 
+</launch>
+

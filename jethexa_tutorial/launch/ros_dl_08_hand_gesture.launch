@@ -1,0 +1,6 @@
+<launch>
+	<include file="$(find jethexa_peripherals)/launch/camera.launch"></include>
+
+	<node name="hand_detect_node" pkg="jethexa_tutorial" type="ros_dl_08_hand_gesture.py" output="screen">
+	</node>
+</launch>

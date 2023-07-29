@@ -1,0 +1,6 @@
+<launch>
+	<include file="$(find jethexa_controller)/launch/jethexa_controller.launch"></include>
+	<include file="$(find jethexa_peripherals)/launch/camera.launch"></include>
+	<node name="face_tracking_node" pkg="jethexa_tutorial" type="ros_ai_creative_finger_track_03.py" respawn="true" output="screen">
+	</node>
+</launch>

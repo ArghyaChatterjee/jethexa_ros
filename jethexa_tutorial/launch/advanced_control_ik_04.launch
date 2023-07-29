@@ -1,0 +1,4 @@
+<launch>
+	<node name="advanced_control_ik_04" pkg="jethexa_tutorial" type="advanced_control_ik_04.py" output="screen">
+	</node>
+</launch>

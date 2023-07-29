@@ -1,0 +1,8 @@
+<launch>
+	<include file="$(find jethexa_peripherals)/launch/camera.launch"></include>
+	<include file="$(find jethexa_controller)/launch/jethexa_controller.launch"></include>
+
+	<node name="pose_control_node" pkg="jethexa_tutorial" type="ros_ai_creative_mankind_06_gesture_control.py" output="screen">
+	</node>
+
+</launch>

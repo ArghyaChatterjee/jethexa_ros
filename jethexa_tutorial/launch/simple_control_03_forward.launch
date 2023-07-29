@@ -1,0 +1,7 @@
+<launch>
+	<include file="$(find jethexa_controller)/launch/jethexa_controller.launch"></include>
+
+	<node name="face_detect_node" pkg="jethexa_tutorial" type="simple_control_03_forward.py" output="screen" required="true">
+	</node>
+
+</launch>
