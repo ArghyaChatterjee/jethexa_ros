@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../src/AudioPlayer.h
+alsa/asoundlib.h
+-
+
+/home/nie/晓/R2.1.2/vvui/sample/aiui_sample/src/AudioPlayer.cpp
+AudioPlayer.h
+-
+iostream
+-
+
