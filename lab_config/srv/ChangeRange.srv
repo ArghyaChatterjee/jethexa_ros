@@ -1,0 +1,5 @@
+int16[] min
+int16[] max
+---
+bool success
+string message

@@ -1,0 +1,12 @@
+<!-- -*- mode: XML -*- -->
+<launch>
+    <rosparam file="$(find lab_config)/config/lab_config.yaml" command="load" ns="lab_config_manager"/>
+    <node name="lab_config_manager" pkg="lab_config" type="lab_config_manager.py" required="true" output="screen">
+	<param name="config_file_path" value="$(find lab_config)/config/lab_config.yaml" />
+        <rosparam>
+            kernel_erode: 5
+            kernel_dilate: 5
+        </rosparam>
+    </node>
+
+</launch>
