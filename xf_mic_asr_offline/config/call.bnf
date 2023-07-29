@@ -1,0 +1,9 @@
+﻿#BNF+IAT 1.0 UTF-8;
+!grammar call;
+
+!slot <action>;
+!start <callstart>;
+!slot <dance>;
+
+<callstart>:<dance>;
+<dance>:跳个舞吧;
