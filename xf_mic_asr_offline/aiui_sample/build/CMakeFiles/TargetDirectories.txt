@@ -1,0 +1,6 @@
+/home/nie/晓/R2.1.2/vvui/sample/aiui_sample/build/CMakeFiles/edit_cache.dir
+/home/nie/晓/R2.1.2/vvui/sample/aiui_sample/build/CMakeFiles/rebuild_cache.dir
+/home/nie/晓/R2.1.2/vvui/sample/aiui_sample/build/CMakeFiles/audio_player.dir
+/home/nie/晓/R2.1.2/vvui/sample/aiui_sample/build/CMakeFiles/aiui_sample.dir
+/home/nie/晓/R2.1.2/vvui/sample/aiui_sample/build/CMakeFiles/audio_recorder.dir
+/home/nie/晓/R2.1.2/vvui/sample/aiui_sample/build/CMakeFiles/AIUITester.dir

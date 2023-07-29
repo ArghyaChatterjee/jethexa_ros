@@ -1,0 +1,46 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../../../include/hidapi.h
+wchar.h
+-
+protocol_proc_unit.h
+../../../include/protocol_proc_unit.h
+
+../../../include/protocol_proc_unit.h
+pthread.h
+-
+queue_simple.h
+../../../include/queue_simple.h
+
+../../../include/queue_simple.h
+stdio.h
+-
+stdlib.h
+-
+stdint.h
+-
+unistd.h
+-
+windows.h
+-
+errno.h
+-
+pthread.h
+-
+
+../src/AudioRecorder.h
+hidapi.h
+../src/hidapi.h
+iostream
+-
+
+/home/nie/晓/R2.1.2/vvui/sample/aiui_sample/src/AudioRecorder.cpp
+AudioRecorder.h
+-
+

@@ -1,0 +1,1 @@
+/usr/bin/c++  -fPIC  -fPIC -g -D_GLIBCXX_USE_CXX11_ABI=0  -shared -Wl,-soname,libaudio_recorder.so -o libaudio_recorder.so CMakeFiles/audio_recorder.dir/src/AudioRecorder.cpp.o  -L/home/nie/晓/R2.1.2/vvui/sample/aiui_sample/../../lib/x64 -lhid_lib -lmsc -Wl,-rpath,/home/nie/晓/R2.1.2/vvui/sample/aiui_sample/../../lib/x64 

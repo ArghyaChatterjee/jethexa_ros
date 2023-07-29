@@ -1,0 +1,1 @@
+/usr/bin/c++  -fPIC  -fPIC -g -D_GLIBCXX_USE_CXX11_ABI=0  -shared -Wl,-soname,libaudio_player.so -o libaudio_player.so CMakeFiles/audio_player.dir/src/AudioPlayer.cpp.o  -L/home/nie/晓/R2.1.2/vvui/sample/aiui_sample/../../lib/x64 -lasound -Wl,-rpath,/home/nie/晓/R2.1.2/vvui/sample/aiui_sample/../../lib/x64 
