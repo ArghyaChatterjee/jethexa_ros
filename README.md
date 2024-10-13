@@ -42,12 +42,12 @@ This repository is part of my class project (Introduction to Autonomous Mobile S
 /rosout
 ```
 
-## Jethexa Autonomous Waypoint Navigation
-### Transform Tree
+## Jethexa Mapping
 <p align="center">
-<img src="media/jethexa_tf.png" width="1000">
+<img src="media/jethexa_map.png" width="600">
 </p>
 
+## Jethexa Autonomous Waypoint Navigation
 ### Published Topics
 ```
 /jethexa/cmd_vel
@@ -117,6 +117,11 @@ This repository is part of my class project (Introduction to Autonomous Mobile S
 /tf
 /tf_static
 ```
+
+### Transform Tree
+<p align="center">
+<img src="media/jethexa_tf.png" width="1000">
+</p>
 
 ## Node List
 ```
