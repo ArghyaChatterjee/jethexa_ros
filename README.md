@@ -44,9 +44,73 @@ This repository is part of my class project (Introduction to Autonomous Mobile S
 
 ## Jethexa Mapping
 <p align="center">
-<img src="media/jethexa_map.png" width="600">
+<img src="media/jethexa_map.png" width="1000">
 </p>
 
+### Published Topics
+```
+/jethexa/imu/filtered
+/jethexa/jethexa_controller/cmd_vel
+/jethexa/jethexa_controller/pose_transform_euler
+/jethexa/jethexa_controller/run_actionset
+/jethexa/jethexa_controller/set_head_absolute
+/jethexa/jethexa_controller/set_head_relatively
+/jethexa/jethexa_controller/set_leg_absolute
+/jethexa/jethexa_controller/set_leg_relatively
+/jethexa/jethexa_controller/set_pose
+/jethexa/jethexa_controller/set_pose_euler
+/jethexa/jethexa_controller/traveling
+/jethexa/joint_states
+/jethexa/odom/filtered
+/jethexa/odom/laser
+/jethexa/odom/raw
+/jethexa/point_cloud
+/jethexa/rtabmap/cloud_ground
+/jethexa/rtabmap/cloud_map
+/jethexa/rtabmap/cloud_obstacles
+/jethexa/rtabmap/global_path
+/jethexa/rtabmap/global_path_nodes
+/jethexa/rtabmap/global_pose
+/jethexa/rtabmap/gps/fix
+/jethexa/rtabmap/grid_prob_map
+/jethexa/rtabmap/grid_prob_map_updates
+/jethexa/rtabmap/imu
+/jethexa/rtabmap/info
+/jethexa/rtabmap/initialpose
+/jethexa/rtabmap/labels
+/jethexa/rtabmap/landmarks
+/jethexa/rtabmap/local_grid_empty
+/jethexa/rtabmap/local_grid_ground
+/jethexa/rtabmap/local_grid_obstacle
+/jethexa/rtabmap/local_path
+/jethexa/rtabmap/local_path_nodes
+/jethexa/rtabmap/localization_pose
+/jethexa/rtabmap/mapData
+/jethexa/rtabmap/mapGraph
+/jethexa/rtabmap/mapOdomCache
+/jethexa/rtabmap/mapPath
+/jethexa/rtabmap/octomap_binary
+/jethexa/rtabmap/octomap_empty_space
+/jethexa/rtabmap/octomap_full
+/jethexa/rtabmap/octomap_global_frontier_space
+/jethexa/rtabmap/octomap_grid
+/jethexa/rtabmap/octomap_ground
+/jethexa/rtabmap/octomap_obstacles
+/jethexa/rtabmap/octomap_occupied_space
+/jethexa/rtabmap/proj_map
+/jethexa/rtabmap/republish_node_data
+/jethexa/rtabmap/scan_map
+/jethexa/rtabmap/tag_detections
+/jethexa/rtabmap/user_data_async
+/jethexa/scan
+/jethexa/voltage
+/map
+/rosout
+/rosout_agg
+/rtabmap/republish_node_data
+/tf
+/tf_static
+```
 ## Jethexa Autonomous Waypoint Navigation
 ### Published Topics
 ```
