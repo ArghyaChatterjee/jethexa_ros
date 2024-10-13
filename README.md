@@ -12,7 +12,7 @@ This repository is part of my class project (Introduction to Autonomous Mobile S
 <img src="media/image3.png" width="600">
 </p>
 
-## Jethexa transform tree
+## Jethexa Transform Tree
 <p align="center">
-<img src="media/jethexa_tf.png" width="600">
+<img src="media/jethexa_tf.png" width="1000">
 </p>
