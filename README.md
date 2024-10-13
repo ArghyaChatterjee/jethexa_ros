@@ -117,6 +117,37 @@ This repository is part of my class project (Introduction to Autonomous Mobile S
 /tf
 /tf_static
 ```
+
+## Node List
+```
+/jethexa/battery_low_alarm
+/jethexa/body_link_to_laser_link
+/jethexa/camera/camera_nodelet_manager
+/jethexa/camera/depth_metric
+/jethexa/camera/depth_metric_rect
+/jethexa/camera/depth_points
+/jethexa/camera/depth_rectify_depth
+/jethexa/camera/depth_registered_sw_metric_rect
+/jethexa/camera/driver
+/jethexa/camera/points_xyzrgb_sw_registered
+/jethexa/camera/register_depth_rgb
+/jethexa/camera/rgb_rectify_color
+/jethexa/camera/uvc_color
+/jethexa/camera_base_link
+/jethexa/camera_base_link1
+/jethexa/camera_base_link2
+/jethexa/camera_base_link3
+/jethexa/camera_link_2_base_link_1
+/jethexa/ekf_se
+/jethexa/jethexa_controller
+/jethexa/joystick_control
+/jethexa/rf2o_laser_odometry
+/jethexa/robot_state_publisher
+/jethexa/rtabmap/rtabmap
+/jethexa/ydlidar_lidar_g4_publisher
+/mapping_rviz
+/rosout
+```
 ## Jethexa Autonomous Waypoint Navigation
 ### Published Topics
 ```
