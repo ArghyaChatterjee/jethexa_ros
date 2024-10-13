@@ -149,6 +149,12 @@ This repository is part of my class project (Introduction to Autonomous Mobile S
 /rosout
 ```
 ## Jethexa Autonomous Waypoint Navigation
+
+### Transform Tree
+<p align="center">
+<img src="media/jethexa_tf.png" width="1000">
+</p>
+
 ### Published Topics
 ```
 ❯ rostopic list
@@ -255,9 +261,10 @@ This repository is part of my class project (Introduction to Autonomous Mobile S
 /tf_static
 ```
 
-### Transform Tree
+## Jethexa Autonomous Waypoint Navigation
 <p align="center">
-<img src="media/jethexa_tf.png" width="1000">
+<img src="media/image3.png" width="380">
+<img src="media/jethexa_auto_nav.png" width="400">
 </p>
 
 ## Node List
@@ -291,13 +298,13 @@ This repository is part of my class project (Introduction to Autonomous Mobile S
 /rosout
 ```
 
-## Jethexa Autonomous Waypoint Navigation
+## Jethexa Elevation Mapping & Object Pose Estimation
 <p align="center">
-<img src="media/image3.png" width="380">
-<img src="media/jethexa_auto_nav.png" width="400">
+<img src="media/jethexa_elevation.png" width="400">
+<img src="media/jethexa_ope.png" width="400">
 </p>
 
-## Jethexa Elevation Mapping & Object Pose Estimation
+## Jethexa Semantic Elevation Mapping (Selmap) & Semantic Mapping (Voxblox ++)
 <p align="center">
 <img src="media/jethexa_elevation.png" width="400">
 <img src="media/jethexa_ope.png" width="400">
