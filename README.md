@@ -303,8 +303,8 @@ This repository is part of my class project (Introduction to Autonomous Mobile S
 <img src="media/jethexa_ope.png" width="400">
 </p>
 
-## Jethexa Semantic Elevation Mapping (Selmap) & Semantic Mapping (Voxblox ++)
+## Jethexa Semantic Elevation Mapping & Semantic Mapping
 <p align="center">
-<img src="media/jethexa_elevation.png" width="400">
-<img src="media/jethexa_ope.png" width="400">
+<img src="media/jethexa_sel_map.png" width="400">
+<img src="media/jethexa_sem_map.png" width="400">
 </p>
