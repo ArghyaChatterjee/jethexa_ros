@@ -43,12 +43,12 @@ This repository is part of my class project (Introduction to Autonomous Mobile S
 ```
 
 
-## Jethexa Transform Tree
+## Jethexa Auto Nav Transform Tree
 <p align="center">
 <img src="media/jethexa_tf.png" width="1000">
 </p>
 
-## Localization and Mapping Published Topics
+## Auto Point Nav Published Topics
 ```
 /jethexa/cmd_vel
 /jethexa/imu/filtered
@@ -117,7 +117,7 @@ This repository is part of my class project (Introduction to Autonomous Mobile S
 /tf
 /tf_static
 ```
-## Node List
+## Auto Point Nav Node List
 ```
 /jethexa/battery_low_alarm
 /jethexa/body_link_to_laser_link
