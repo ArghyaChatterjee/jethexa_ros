@@ -259,8 +259,6 @@ This repository is part of my class project (Introduction to Autonomous Mobile S
 /tf
 /tf_static
 ```
-
-## Jethexa Autonomous Waypoint Navigation
 <p align="center">
 <img src="media/image3.png" width="380">
 <img src="media/jethexa_auto_nav.png" width="400">
