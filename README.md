@@ -157,7 +157,6 @@ This repository is part of my class project (Introduction to Autonomous Mobile S
 
 ### Published Topics
 ```
-❯ rostopic list
 /diagnostics
 /jethexa/camera/camera_connected
 /jethexa/camera/camera_disconnected
