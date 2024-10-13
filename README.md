@@ -14,5 +14,5 @@ This repository is part of my class project (Introduction to Autonomous Mobile S
 
 ## Jethexa transform tree
 <p align="center">
-<img src="media/image4.png" width="600">
+<img src="media/jethexa_tf.png" width="600">
 </p>
