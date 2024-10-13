@@ -1,4 +1,4 @@
-# jethexa_ros
+# Jethexa ROS
 This repository is part of my class project (Introduction to Autonomous Mobile Systems - EEL 5683) at the Intelligent Systems and Robotics Department at UWF.
 
 ## Jethexa Intro
