@@ -293,6 +293,6 @@ This repository is part of my class project (Introduction to Autonomous Mobile S
 
 ## Jethexa Autonomous Waypoint Navigation
 <p align="center">
-<img src="media/image3.png" width="400">
+<img src="media/image3.png" width="380">
 <img src="media/jethexa_auto_nav.png" width="400">
 </p>
