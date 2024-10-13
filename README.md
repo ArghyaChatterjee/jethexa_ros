@@ -7,11 +7,6 @@ This repository is part of my class project (Introduction to Autonomous Mobile S
 <img src="media/Image2.png" width="400">
 </p>
 
-## Jethexa Autonomous Waypoint Navigation
-<p align="center">
-<img src="media/image3.png" width="600">
-</p>
-
 ## Sensor Only Published Topics
 ```
 /jethexa/battery_low_alarm
@@ -42,8 +37,7 @@ This repository is part of my class project (Introduction to Autonomous Mobile S
 /rosout
 ```
 
-
-## Jethexa Auto Point Nav
+## Jethexa Autonomous Waypoint Navigation
 ### Transform Tree
 <p align="center">
 <img src="media/jethexa_tf.png" width="1000">
@@ -118,6 +112,7 @@ This repository is part of my class project (Introduction to Autonomous Mobile S
 /tf
 /tf_static
 ```
+
 ## Node List
 ```
 /jethexa/battery_low_alarm
@@ -148,3 +143,8 @@ This repository is part of my class project (Introduction to Autonomous Mobile S
 /mapping_rviz
 /rosout
 ```
+
+## Jethexa Autonomous Waypoint Navigation
+<p align="center">
+<img src="media/image3.png" width="600">
+</p>
