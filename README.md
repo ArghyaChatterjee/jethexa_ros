@@ -7,6 +7,11 @@ This repository is part of my class project (Introduction to Autonomous Mobile S
 <img src="media/Image2.png" width="400">
 </p>
 
+## Jethexa Communication
+<p align="center">
+<img src="media/jethexa_com.png" width="400">
+</p>
+
 ## Sensor Only Published Topics
 ```
 /jethexa/battery_low_alarm
