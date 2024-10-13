@@ -1,13 +1,18 @@
 # jethexa_ros
-This repository is part of my class project (Introduction to Autonomous Mobile Systems - EEL 5683) at Intelligent Systems and Robotics department in UWF.
+This repository is part of my class project (Introduction to Autonomous Mobile Systems - EEL 5683) at the Intelligent Systems and Robotics Department at UWF.
 
-![Optional Alt Text](media/image.png)
+## Jethexa Intro
+<p align="center">
+<img src="media/image.png" width="400">
+<img src="media/Image2.png" width="400">
+</p>
 
-![Optional Alt Text1](media/Image2.png)
+## Jethexa Autonomous Waypoint Navigation
+<p align="center">
+<img src="media/image3.png" width="600">
+</p>
 
-![Optional Alt Text2](media/image3.png)
-
-## Jet hexa transform tree
+## Jethexa transform tree
 <p align="center">
 <img src="media/image4.png" width="600">
 </p>
